@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+.tmp/
+out/
+dist/
+build/
+.runtime/
+tsconfig.tsbuildinfo
+Accounting Project/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/

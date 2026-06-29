@@ -1,0 +1,382 @@
+{
+  "config_version": "1.0.0",
+  "source_precedence": [
+    "actual_source_file",
+    "historical_processed_postings",
+    "accounting_mapping_workbook",
+    "column_glossary_csv"
+  ],
+  "default_policies": {
+    "money_storage": "decimal_string",
+    "missing_value": null,
+    "rounding_mode": "configurable_per_customer",
+    "default_posting_scale": 2,
+    "default_reconciliation_tolerance": "0.01",
+    "require_currency": true,
+    "require_source_location": true,
+    "require_total_reconciliation": true,
+    "negative_payable_policy": "carryforward_no_posting",
+    "ai_role": "format_classification_and_ambiguous_field_extraction",
+    "deterministic_role": "money_calculation_validation_mapping_and_posting"
+  },
+  "vendors": {
+    "1979_media": {
+      "canonical_customer": "1979 Media (Dorcel)",
+      "vertical": "Licensing",
+      "currency": "EUR",
+      "automation_state": "ready_with_review",
+      "parser_family": "xlsx_1979_dorcel",
+      "bundle_rule": "one quarterly workbook",
+      "authoritative_amount_rule": "TOTAL H.T. on summary, with title detail from Reversement distributeur",
+      "period_rule": "read the Period cell, never the worksheet name",
+      "calculations": [
+        "separate gay and VT Sex Art Straplez sections",
+        "include prior quarter delta adjustments"
+      ],
+      "validations": [
+        "detail sum to section summary",
+        "section summaries plus adjustment equal TOTAL H.T."
+      ],
+      "posting_policy": "aggregate title lines by approved canonical studio"
+    },
+    "aerona": {
+      "canonical_customer": "AERONA LLC",
+      "vertical": "VOD",
+      "currency": "USD",
+      "automation_state": "ready",
+      "parser_family": "xlsx_aerona_rollup",
+      "bundle_rule": "one rollup plus four optional raw files",
+      "authoritative_amount_rule": "Total column in aecash_item_report.xlsx",
+      "period_rule": "folder period or source export period",
+      "calculations": [
+        "Total equals PPM plus Rental plus Download plus Stream for Life plus Scenes plus Unlimited"
+      ],
+      "validations": [
+        "component sum equals Total",
+        "raw file difference equals Unlimited where raw files are present"
+      ],
+      "posting_policy": "aggregate rollup lines by canonical studio"
+    },
+    "amg": {
+      "canonical_customer": "All Media Group (AMG)",
+      "vertical": "Licensing",
+      "currency": "USD",
+      "automation_state": "review_gate",
+      "parser_family": "xlsx_amg_mixed",
+      "bundle_rule": "one mixed workbook",
+      "authoritative_amount_rule": "Payout on nonhighlighted revenue share rows only",
+      "period_rule": "source date and folder period",
+      "calculations": [
+        "Payout equals license fee minus 25 percent distribution fee"
+      ],
+      "validations": [
+        "nonmanual rows reconcile",
+        "manual highlighted rows routed to review"
+      ],
+      "posting_policy": "do not automatically post highlighted flat fee rows"
+    },
+    "av_entertainment": {
+      "canonical_customer": "AV Entertainment/Optical Xtreme",
+      "vertical": "VOD",
+      "currency": "USD",
+      "automation_state": "ready",
+      "parser_family": "xlsx_av_royalty_header",
+      "bundle_rule": "one monthly workbook",
+      "authoritative_amount_rule": "highlighted header royalty amount",
+      "period_rule": "date range in header",
+      "calculations": [
+        "net payable equals gross line totals times 35 percent"
+      ],
+      "validations": [
+        "gross line total times rate reconciles to header within rounding"
+      ],
+      "posting_policy": "aggregate net allocation by studio"
+    },
+    "dream_logistics": {
+      "canonical_customer": "Dream Logistics BV",
+      "vertical": "VOD",
+      "currency": "USD",
+      "automation_state": "ready_with_review",
+      "parser_family": "pdf_invoice_lines",
+      "bundle_rule": "one invoice PDF",
+      "authoritative_amount_rule": "subtotal minus adjustments",
+      "period_rule": "description and invoice date",
+      "calculations": [
+        "line total equals quantity times unit price where meaningful"
+      ],
+      "validations": [
+        "line totals plus adjustments equal final amount"
+      ],
+      "posting_policy": "one posting per studio line"
+    },
+    "dusk": {
+      "canonical_customer": "Dusk TV / 2GrapesMedia B.V.",
+      "vertical": "Licensing",
+      "currency": "EUR",
+      "automation_state": "ready",
+      "parser_family": "xlsx_dusk_playlist",
+      "bundle_rule": "one xlsx plus matching PDF",
+      "authoritative_amount_rule": "footer total from Payout NL plus Payout INT plus optional VOD total",
+      "period_rule": "report period and file name",
+      "calculations": [
+        "ignore duplicate top and bottom summary rows"
+      ],
+      "validations": [
+        "title rows reconcile to footer",
+        "PDF total matches xlsx"
+      ],
+      "posting_policy": "aggregate preassigned titles by canonical studio"
+    },
+    "erigo": {
+      "canonical_customer": "Erigo / Load",
+      "vertical": "DVD",
+      "currency": "USD",
+      "automation_state": "review_gate",
+      "parser_family": "pdf_payment_narrative",
+      "bundle_rule": "one narrative PDF",
+      "authoritative_amount_rule": "explicit TOTAL USD PAYMENT",
+      "period_rule": "month stated in message",
+      "calculations": [
+        "preserve source GBP amount and exchange rate"
+      ],
+      "validations": [
+        "USD amount equals GBP amount times exchange rate within source rounding",
+        "currency labels consistent"
+      ],
+      "posting_policy": "split named sections by studio and require human approval"
+    },
+    "erika_lust": {
+      "canonical_customer": "Erika Lust / Lust Productions",
+      "vertical": "Licensing",
+      "currency": "EUR",
+      "automation_state": "ready_with_warning",
+      "parser_family": "xlsx_erika_summary",
+      "bundle_rule": "one quarterly workbook",
+      "authoritative_amount_rule": "producer summary Total Royalties",
+      "period_rule": "quarter from workbook",
+      "calculations": [
+        "streaming plus store equals total"
+      ],
+      "validations": [
+        "producer summary total reconciles",
+        "detail completeness warning when producer summary exceeds detail"
+      ],
+      "posting_policy": "post producer summary by canonical studio"
+    },
+    "gamma_licensing": {
+      "canonical_customer": "Gamma Broadcast Group Inc. Licensing",
+      "vertical": "Licensing",
+      "currency": "USD",
+      "automation_state": "ready_with_review",
+      "parser_family": "xlsx_gamma_running_balance",
+      "bundle_rule": "one running balance workbook",
+      "authoritative_amount_rule": "highlighted amount after wire fee",
+      "period_rule": "monthly summary column and filename",
+      "calculations": [
+        "store period earned, prior balance, payments, fees, and net payable separately"
+      ],
+      "validations": [
+        "VOD plus Linear plus SVOD equals current period royalties",
+        "net due minus wire fee equals highlighted payable"
+      ],
+      "posting_policy": "post highlighted payable under approved legacy policy"
+    },
+    "gamma_adult_time": {
+      "canonical_customer": "Gamma Broadcast Group Inc. Adult Time",
+      "vertical": "VOD",
+      "currency": "USD",
+      "automation_state": "ready_with_review",
+      "parser_family": "pdf_adulttime_scene",
+      "bundle_rule": "two PDFs for the same period",
+      "authoritative_amount_rule": "sum Revshare grand totals across both reports",
+      "period_rule": "file date and report header",
+      "calculations": [
+        "sum per scene Revshare"
+      ],
+      "validations": [
+        "scene sum equals each report grand total",
+        "two report totals equal bundle total"
+      ],
+      "posting_policy": "aggregate bundle amount by Team Skeet mapping"
+    },
+    "girlfriends_films": {
+      "canonical_customer": "Girlfriends Films",
+      "vertical": "DVD",
+      "currency": "USD",
+      "automation_state": "ready",
+      "parser_family": "xlsx_girlfriends_quickbooks",
+      "bundle_rule": "one reused workbook with monthly tabs",
+      "authoritative_amount_rule": "highlighted bottom total after 65 percent profit share",
+      "period_rule": "selected monthly sheet",
+      "calculations": [
+        "use invoice lines or Total item rows, never both",
+        "apply 65 percent share"
+      ],
+      "validations": [
+        "raw line total times 65 percent equals payable"
+      ],
+      "posting_policy": "aggregate monthly payable by canonical studio"
+    },
+    "hpg": {
+      "canonical_customer": "HPG Production",
+      "vertical": "Licensing",
+      "currency": "EUR",
+      "automation_state": "ready",
+      "parser_family": "xlsx_hpg_channel",
+      "bundle_rule": "monthly folders, one xlsx per studio and channel, optional paired PDF",
+      "authoritative_amount_rule": "Canal O, Netgem T, Proximus dynamic final Revenue column",
+      "period_rule": "folder and source period",
+      "calculations": [
+        "coerce numeric strings in Proximus"
+      ],
+      "validations": [
+        "line sums equal xlsx total",
+        "paired PDF total matches when present"
+      ],
+      "posting_policy": "one posting per studio report or approved aggregate"
+    },
+    "knpb": {
+      "canonical_customer": "KNPB Media BV",
+      "vertical": "VOD",
+      "currency": "EUR",
+      "automation_state": "ready",
+      "parser_family": "xlsx_knpb_credit_note",
+      "bundle_rule": "one xlsx plus matching 42 page PDF",
+      "authoritative_amount_rule": "Total Income summary and T Revenue title detail",
+      "period_rule": "credit note date and statement period",
+      "calculations": [
+        "T Revenue equals download revenue plus rental revenue"
+      ],
+      "validations": [
+        "title sum equals studio summary",
+        "studio summary equals Total Income",
+        "PDF matches xlsx"
+      ],
+      "posting_policy": "aggregate title lines by canonical studio"
+    },
+    "level5": {
+      "canonical_customer": "Level5 Media GmbH",
+      "vertical": "VOD",
+      "currency": "EUR",
+      "automation_state": "ready_with_review",
+      "parser_family": "pdf_level5_credit_note",
+      "bundle_rule": "one credit note PDF",
+      "authoritative_amount_rule": "studio totals and total net",
+      "period_rule": "period field can contain multiple months",
+      "calculations": [
+        "sales and rentals use coin rate and share, subscription share is already an amount"
+      ],
+      "validations": [
+        "component lines equal each studio total",
+        "studio totals equal total net"
+      ],
+      "posting_policy": "one posting per studio"
+    },
+    "new_sensations": {
+      "canonical_customer": "New Sensations Inc.",
+      "vertical": "DVD",
+      "currency": "USD",
+      "automation_state": "ready",
+      "parser_family": "xlsx_new_sensations_paid",
+      "bundle_rule": "one workbook per studio brand",
+      "authoritative_amount_rule": "Paid amount minus 30 percent fee minus expenses",
+      "period_rule": "file name and report date",
+      "calculations": [
+        "use Paid detail only",
+        "deduct expense sheet when present"
+      ],
+      "validations": [
+        "detail quantity equals summary",
+        "detail amount equals paid amount",
+        "final due reconciles"
+      ],
+      "posting_policy": "one posting per workbook mapped to canonical studio"
+    },
+    "omnet": {
+      "canonical_customer": "OMNet AG",
+      "vertical": "VOD",
+      "currency": "USD",
+      "automation_state": "document_extraction_review",
+      "parser_family": "xlsx_embedded_image_omnet",
+      "bundle_rule": "one image based workbook per month",
+      "authoritative_amount_rule": "YOUR SHARE total",
+      "period_rule": "filename and embedded report header",
+      "calculations": [
+        "40 percent share of revenue with source rounding"
+      ],
+      "validations": [
+        "label shares sum to report share",
+        "title detail reconciles where visible"
+      ],
+      "posting_policy": "map label codes through an approved code alias table"
+    },
+    "pulse": {
+      "canonical_customer": "Pulse Distribution",
+      "vertical": "DVD",
+      "currency": "USD",
+      "automation_state": "ready_with_policy",
+      "parser_family": "xlsx_pulse_cumulative_balance",
+      "bundle_rule": "one cumulative workbook per studio",
+      "authoritative_amount_rule": "final Net Royalty Due or Balance Due on Summary",
+      "period_rule": "Summary report heading",
+      "calculations": [
+        "preserve sales, collections, rate periods, expenses, reserves, payments, and balance"
+      ],
+      "validations": [
+        "final formula captured",
+        "positive amount matches historical posting after configured rounding"
+      ],
+      "posting_policy": "post positive balances only, carry negative balances forward"
+    },
+    "sonifi": {
+      "canonical_customer": "Sonifi Solutions",
+      "vertical": "Licensing",
+      "currency": "USD",
+      "automation_state": "source_ready_allocation_blocked",
+      "parser_family": "docx_sonifi_statement",
+      "bundle_rule": "one source statement plus an internal allocation workbook",
+      "authoritative_amount_rule": "Royalty vendor amount on DOCX statement",
+      "period_rule": "Statement Period YYYYMM",
+      "calculations": [
+        "source royalty equals sales times six percent within line rounding"
+      ],
+      "validations": [
+        "title sales and royalties sum to grand totals"
+      ],
+      "posting_policy": "do not create studio postings until allocation policy and workbook formulas are approved"
+    },
+    "aebn": {
+      "canonical_customer": "WMM Holdings LLC (AEBN)",
+      "vertical": "VOD",
+      "currency": "USD",
+      "automation_state": "ready_with_reconciliation",
+      "parser_family": "xlsx_aebn_title",
+      "bundle_rule": "one title workbook plus portal screenshot",
+      "authoritative_amount_rule": "line Total for allocations, portal payout for declared payable",
+      "period_rule": "folder and portal period",
+      "calculations": [
+        "do not rebuild Total from rounded PPM, Rental, and Download displays"
+      ],
+      "validations": [
+        "line Total sum versus portal declared total",
+        "component rounding difference recorded"
+      ],
+      "posting_policy": "aggregate line Total by canonical studio and handle declared difference explicitly"
+    },
+    "velvet": {
+      "canonical_customer": "Velvet Media B.V.",
+      "vertical": "Licensing",
+      "currency": "UNKNOWN",
+      "automation_state": "blocked_missing_source",
+      "parser_family": "missing_velvet_source",
+      "bundle_rule": "expected workbook plus PDF with eight channel tabs",
+      "authoritative_amount_rule": "not available in supplied files",
+      "period_rule": "not available",
+      "calculations": [],
+      "validations": [
+        "file identity must not match AEBN"
+      ],
+      "posting_policy": "no posting until correct source is supplied"
+    }
+  }
+}

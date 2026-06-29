@@ -1,0 +1,96 @@
+insert into platforms (platform_key, display_name, default_vertical, default_currency, metadata)
+values
+  ('1979_media', '1979 Media (Dorcel)', 'Licensing', 'EUR', '{"automation_state":"ready_with_review"}'),
+  ('aerona', 'AERONA LLC', 'VOD', 'USD', '{"automation_state":"ready"}'),
+  ('amg', 'All Media Group (AMG)', 'Licensing', 'USD', '{"automation_state":"review_gate"}'),
+  ('av_entertainment', 'AV Entertainment/Optical Xtreme', 'VOD', 'USD', '{"automation_state":"ready"}'),
+  ('dream_logistics', 'Dream Logistics BV', 'VOD', 'USD', '{"automation_state":"ready_with_review"}'),
+  ('dusk', 'Dusk TV / 2GrapesMedia B.V.', 'Licensing', 'EUR', '{"automation_state":"ready"}'),
+  ('erigo', 'Erigo / Load', 'DVD', 'USD', '{"automation_state":"review_gate"}'),
+  ('erika_lust', 'Erika Lust / Lust Productions', 'Licensing', 'EUR', '{"automation_state":"ready_with_warning"}'),
+  ('gamma_licensing', 'Gamma Broadcast Group Inc. Licensing', 'Licensing', 'USD', '{"automation_state":"ready_with_review"}'),
+  ('gamma_adult_time', 'Gamma Broadcast Group Inc. Adult Time', 'VOD', 'USD', '{"automation_state":"ready_with_review"}'),
+  ('girlfriends_films', 'Girlfriends Films', 'DVD', 'USD', '{"automation_state":"ready"}'),
+  ('hpg', 'HPG Production', 'Licensing', 'EUR', '{"automation_state":"ready"}'),
+  ('knpb', 'KNPB Media BV', 'VOD', 'EUR', '{"automation_state":"ready"}'),
+  ('level5', 'Level5 Media GmbH', 'VOD', 'EUR', '{"automation_state":"ready_with_review"}'),
+  ('new_sensations', 'New Sensations Inc.', 'DVD', 'USD', '{"automation_state":"ready"}'),
+  ('omnet', 'OMNet AG', 'VOD', 'USD', '{"automation_state":"document_extraction_review"}'),
+  ('pulse', 'Pulse Distribution', 'DVD', 'USD', '{"automation_state":"ready_with_policy"}'),
+  ('sonifi', 'Sonifi Solutions', 'Licensing', 'USD', '{"automation_state":"source_ready_allocation_blocked"}'),
+  ('aebn', 'WMM Holdings LLC (AEBN)', 'VOD', 'USD', '{"automation_state":"ready_with_reconciliation"}'),
+  ('velvet', 'Velvet Media B.V.', 'Licensing', null, '{"automation_state":"blocked_missing_source"}')
+on conflict (platform_key) do update set
+  display_name = excluded.display_name,
+  default_vertical = excluded.default_vertical,
+  default_currency = excluded.default_currency,
+  metadata = excluded.metadata,
+  updated_at = now();
+
+insert into parser_profiles (
+  platform_id,
+  profile_key,
+  parser_family,
+  version,
+  config_version,
+  profile_type,
+  media_types,
+  deterministic,
+  enabled,
+  confidence_threshold,
+  reconciliation_tolerance,
+  config,
+  notes
+)
+select
+  p.id,
+  seed.profile_key,
+  seed.parser_family,
+  '1.0.0',
+  '1.0.0',
+  seed.profile_type::parser_profile_type,
+  seed.media_types,
+  seed.deterministic,
+  seed.enabled,
+  seed.confidence_threshold,
+  0.010000,
+  seed.config,
+  seed.notes
+from (
+  values
+    ('1979_media', '1979_media_v1', 'xlsx_1979_dorcel', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"review_gate":true,"authoritative_amount_rule":"TOTAL H.T. on summary, with title detail from Reversement distributeur"}'::jsonb, 'Ready with review. Read period from report cell.'),
+    ('aerona', 'aerona_rollup_v1', 'xlsx_aerona_rollup', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9800, '{"authoritative_amount_rule":"Total column in aecash_item_report.xlsx","component_columns":["PPM","Rental","Download","Stream for Life","Scenes","Unlimited"]}'::jsonb, 'First deterministic workbook parser implemented.'),
+    ('amg', 'amg_mixed_v1', 'xlsx_amg_mixed', 'hybrid', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"review_gate":true,"manual_highlighted_rows":true}'::jsonb, 'Highlighted flat fee rows require review.'),
+    ('av_entertainment', 'av_royalty_header_v1', 'xlsx_av_royalty_header', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"share_rate":"0.35","authoritative_amount_rule":"highlighted header royalty amount"}'::jsonb, 'Apply 35 percent and reconcile to header.'),
+    ('dream_logistics', 'dream_invoice_lines_v1', 'pdf_invoice_lines', 'hybrid', array['application/pdf'], true, true, 0.9000, '{"review_gate":true,"authoritative_amount_rule":"subtotal minus adjustments"}'::jsonb, 'PDF invoice parser requires review gate.'),
+    ('dusk', 'dusk_playlist_v1', 'xlsx_dusk_playlist', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"authoritative_amount_rule":"footer payout total"}'::jsonb, 'Ignore duplicate top and bottom summary rows.'),
+    ('erigo', 'erigo_payment_narrative_v1', 'pdf_payment_narrative', 'hybrid', array['application/pdf'], true, true, 0.9000, '{"review_gate":true,"authoritative_amount_rule":"TOTAL USD PAYMENT"}'::jsonb, 'Narrative extraction requires currency review.'),
+    ('erika_lust', 'erika_summary_v1', 'xlsx_erika_summary', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"authoritative_amount_rule":"producer summary Total Royalties","detail_incomplete_warning":true}'::jsonb, 'Use producer summary because detail omits Viv Thomas.'),
+    ('gamma_licensing', 'gamma_running_balance_v1', 'xlsx_gamma_running_balance', 'custom', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"authoritative_amount_rule":"highlighted amount after wire fee"}'::jsonb, 'Store period earned and running payable separately.'),
+    ('gamma_adult_time', 'gamma_adult_time_scene_v1', 'pdf_adulttime_scene', 'hybrid', array['application/pdf'], true, true, 0.9000, '{"review_gate":true,"authoritative_amount_rule":"sum Revshare grand totals across both reports"}'::jsonb, 'Bundle both PDFs for period.'),
+    ('girlfriends_films', 'girlfriends_quickbooks_v1', 'xlsx_girlfriends_quickbooks', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"share_rate":"0.65","authoritative_amount_rule":"highlighted bottom total"}'::jsonb, 'Use invoice lines or Total item rows, not both.'),
+    ('hpg', 'hpg_channel_v1', 'xlsx_hpg_channel', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"authoritative_amount_rule":"dynamic final Revenue column"}'::jsonb, 'XLSX is primary; PDF verifies when present.'),
+    ('hpg', 'hpg_canal_v1', 'xlsx_hpg_canal', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"authoritative_amount_rule":"Canal final revenue column"}'::jsonb, 'Canal XLSX primary; paired PDF verifies when present.'),
+    ('hpg', 'hpg_netgem_v1', 'xlsx_hpg_netgem', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"authoritative_amount_rule":"Netgem final revenue column"}'::jsonb, 'Netgem XLSX primary; paired PDF verifies when present.'),
+    ('hpg', 'hpg_proximus_v1', 'xlsx_hpg_proximus', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"authoritative_amount_rule":"Proximus dynamic final revenue column"}'::jsonb, 'Proximus XLSX primary; paired PDF verifies when present.'),
+    ('knpb', 'knpb_credit_note_v1', 'xlsx_knpb_credit_note', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"authoritative_amount_rule":"Total Income summary and T Revenue title detail"}'::jsonb, 'Use XLSX as primary and PDF as verification.'),
+    ('level5', 'level5_credit_note_v1', 'pdf_level5_credit_note', 'hybrid', array['application/pdf'], true, true, 0.9000, '{"review_gate":true,"authoritative_amount_rule":"studio totals and total net"}'::jsonb, 'PDF parser with review gate.'),
+    ('new_sensations', 'new_sensations_paid_v1', 'xlsx_new_sensations_paid', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"fee_rate":"0.30","authoritative_amount_rule":"Paid amount minus 30 percent fee minus expenses"}'::jsonb, 'Deduct expense sheets where present.'),
+    ('omnet', 'omnet_embedded_image_v1', 'xlsx_embedded_image_omnet', 'ai_fallback', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], false, true, 0.8500, '{"review_gate":true,"authoritative_amount_rule":"YOUR SHARE total"}'::jsonb, 'Workbook is image container; extraction requires review.'),
+    ('pulse', 'pulse_cumulative_balance_v1', 'xlsx_pulse_cumulative_balance', 'custom', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"negative_payable_policy":"carryforward_no_posting","authoritative_amount_rule":"final Net Royalty Due or Balance Due on Summary"}'::jsonb, 'Post positive cumulative balances only.'),
+    ('sonifi', 'sonifi_statement_v1', 'docx_sonifi_statement', 'hybrid', array['application/vnd.openxmlformats-officedocument.wordprocessingml.document'], true, true, 0.9500, '{"review_gate":true,"allocation_blocked":true,"authoritative_amount_rule":"Royalty vendor amount on DOCX statement"}'::jsonb, 'Source ready; allocation blocked.'),
+    ('aebn', 'aebn_title_v1', 'xlsx_aebn_title', 'config', array['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true, true, 0.9500, '{"review_gate":true,"authoritative_amount_rule":"line Total for allocations, portal payout for declared payable"}'::jsonb, 'One cent portal difference requires accounting policy.'),
+    ('velvet', 'velvet_missing_source_v1', 'missing_velvet_source', 'config', array[]::text[], true, false, 0.9500, '{"blocked":true,"reason":"supplied files are AEBN duplicates"}'::jsonb, 'Blocked until correct source is supplied.')
+) as seed(platform_key, profile_key, parser_family, profile_type, media_types, deterministic, enabled, confidence_threshold, config, notes)
+join platforms p on p.platform_key = seed.platform_key
+on conflict (profile_key, version, config_version) do update set
+  platform_id = excluded.platform_id,
+  parser_family = excluded.parser_family,
+  profile_type = excluded.profile_type,
+  media_types = excluded.media_types,
+  deterministic = excluded.deterministic,
+  enabled = excluded.enabled,
+  confidence_threshold = excluded.confidence_threshold,
+  reconciliation_tolerance = excluded.reconciliation_tolerance,
+  config = excluded.config,
+  notes = excluded.notes;

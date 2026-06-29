@@ -1,0 +1,874 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "report_id": "aerona_2026_04_rollup",
+    "report_status": "review",
+    "sample_notes": "Representative line only. The full normalized report would contain all 6390 rollup rows and studio allocations.",
+    "source": {
+      "reporting_party": {
+        "source_name": "ADE",
+        "canonical_name": "AERONA LLC",
+        "canonical_id": null
+      },
+      "account_holder": "NMG Media LLC",
+      "report_type": "royalty_statement",
+      "report_family": "aerona_rollup",
+      "statement_reference": null,
+      "source_files": [
+        {
+          "file_name": "aecash_item_report.xlsx",
+          "sha256": "03727cc30148bf4063f95e7aebdd4559e0d5bf88ce9e08797b999764550afa3a",
+          "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "role": "primary",
+          "source_locator": "aecash_item_report.csv sheet"
+        }
+      ]
+    },
+    "period": {
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-30",
+      "label": "April 2026",
+      "statement_date": null,
+      "invoice_date": "2026-04-30",
+      "due_date": "2026-06-30"
+    },
+    "currency": "USD",
+    "financial_summary": {
+      "gross_sales": null,
+      "period_royalty_earned": {
+        "amount": "81318.52240",
+        "currency": "USD"
+      },
+      "prior_balance": null,
+      "collections": null,
+      "fees": null,
+      "expenses": null,
+      "payments": null,
+      "reserves": null,
+      "adjustments": null,
+      "net_payable": {
+        "amount": "81318.52240",
+        "currency": "USD"
+      },
+      "components": [
+        {
+          "type": "ppm",
+          "amount": {
+            "amount": "9912.879",
+            "currency": "USD"
+          },
+          "source_label": "PPM"
+        },
+        {
+          "type": "rental",
+          "amount": {
+            "amount": "1164.254",
+            "currency": "USD"
+          },
+          "source_label": "Rental"
+        },
+        {
+          "type": "download",
+          "amount": {
+            "amount": "19796.320",
+            "currency": "USD"
+          },
+          "source_label": "Download"
+        },
+        {
+          "type": "stream_for_life",
+          "amount": {
+            "amount": "14595.690",
+            "currency": "USD"
+          },
+          "source_label": "Stream for Life"
+        },
+        {
+          "type": "scenes",
+          "amount": {
+            "amount": "27533.256",
+            "currency": "USD"
+          },
+          "source_label": "Scenes"
+        },
+        {
+          "type": "unlimited",
+          "amount": {
+            "amount": "8316.12340",
+            "currency": "USD"
+          },
+          "source_label": "Unlimited"
+        }
+      ]
+    },
+    "line_items": [
+      {
+        "line_id": "aerona_4903414",
+        "line_type": "royalty",
+        "event_date": null,
+        "source_invoice_number": null,
+        "studio": {
+          "source_name": "5K Porn Movies",
+          "canonical_name": null,
+          "parent_entity": null,
+          "billing_entity": null,
+          "lookup_status": "ambiguous"
+        },
+        "title": {
+          "source_title": "Black Creampie Queens",
+          "canonical_title": null,
+          "source_title_id": "4903414"
+        },
+        "platform": "ADE",
+        "channel": null,
+        "territory": null,
+        "revenue_type": "mixed_vod",
+        "quantity": null,
+        "gross_amount": null,
+        "share_rate": null,
+        "fee_rate": null,
+        "fee_amount": null,
+        "expense_amount": null,
+        "net_amount": {
+          "amount": "22.138",
+          "currency": "USD"
+        },
+        "source_location": {
+          "file_name": "aecash_item_report.xlsx",
+          "sheet_name": "aecash_item_report.csv",
+          "page_number": null,
+          "row_number": 2,
+          "cell_range": "A2:K2",
+          "image_name": null
+        },
+        "raw_fields": {
+          "ppm": "0.558",
+          "rental": "0.0",
+          "download": "6.97",
+          "stream_for_life": "2.7",
+          "scenes": "11.91",
+          "unlimited": "0.0"
+        }
+      }
+    ],
+    "allocations": [],
+    "accounting_postings": [],
+    "validation": {
+      "declared_total": {
+        "amount": "81318.52240",
+        "currency": "USD"
+      },
+      "computed_total": {
+        "amount": "81318.52240",
+        "currency": "USD"
+      },
+      "difference": {
+        "amount": "0",
+        "currency": "USD"
+      },
+      "tolerance": {
+        "amount": "0.01",
+        "currency": "USD"
+      },
+      "status": "passed",
+      "checks": [
+        {
+          "name": "component_total",
+          "status": "passed",
+          "message": "All six component totals equal the rollup Total."
+        },
+        {
+          "name": "raw_completeness",
+          "status": "warning",
+          "message": "Raw platform files omit Unlimited revenue."
+        }
+      ],
+      "issues": [
+        "Studio alias for 5K Porn Movies needs approval."
+      ],
+      "human_review_required": true
+    },
+    "parser": {
+      "parser_family": "xlsx_aerona_rollup",
+      "parser_version": "1.0.0",
+      "confidence": "0.99",
+      "config_version": "1.0.0"
+    }
+  },
+  {
+    "schema_version": "1.0.0",
+    "report_id": "pulse_nvg_2026_04",
+    "report_status": "suppressed",
+    "sample_notes": "This example shows why current month sales cannot be used as the posting amount.",
+    "source": {
+      "reporting_party": {
+        "source_name": "Pulse Distribution",
+        "canonical_name": "Pulse Distribution",
+        "canonical_id": null
+      },
+      "account_holder": "New Media Group",
+      "report_type": "cumulative_royalty_statement",
+      "report_family": "pulse_cumulative_balance",
+      "statement_reference": null,
+      "source_files": [
+        {
+          "file_name": "NVG Apr2026.xlsx",
+          "sha256": "4c9d518533bca8b5458d4709cc87a708c209f488d134fdd398c4053a6e681fdd",
+          "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "role": "primary",
+          "source_locator": "Summary and supporting history sheets"
+        }
+      ]
+    },
+    "period": {
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-30",
+      "label": "Summary report through April 2026",
+      "statement_date": null,
+      "invoice_date": "2026-04-30",
+      "due_date": "2026-06-30"
+    },
+    "currency": "USD",
+    "financial_summary": {
+      "gross_sales": {
+        "amount": "1900",
+        "currency": "USD"
+      },
+      "period_royalty_earned": null,
+      "prior_balance": null,
+      "collections": {
+        "amount": "257.31",
+        "currency": "USD"
+      },
+      "fees": null,
+      "expenses": {
+        "amount": "-221602.43",
+        "currency": "USD"
+      },
+      "payments": {
+        "amount": "-213174.14",
+        "currency": "USD"
+      },
+      "reserves": null,
+      "adjustments": null,
+      "net_payable": {
+        "amount": "-1305.8785",
+        "currency": "USD"
+      },
+      "components": []
+    },
+    "line_items": [],
+    "allocations": [],
+    "accounting_postings": [
+      {
+        "posting_id": "pulse_nvg_2026_04_hold",
+        "posting_type": "hold",
+        "customer": "Pulse Distribution",
+        "studio": "Net Video Girls",
+        "amount": {
+          "amount": "-1305.88",
+          "currency": "USD"
+        },
+        "memo": "DVD April 2026",
+        "invoice_date": "2026-04-30",
+        "due_date": "2026-06-30",
+        "vertical": "DVD",
+        "invoice_number": null,
+        "entered_at": null,
+        "exported_at": null,
+        "status": "suppressed",
+        "suppression_reason": "Negative cumulative balance carried forward.",
+        "source_line_ids": []
+      }
+    ],
+    "validation": {
+      "declared_total": {
+        "amount": "-1305.8785",
+        "currency": "USD"
+      },
+      "computed_total": {
+        "amount": "-1305.8785",
+        "currency": "USD"
+      },
+      "difference": {
+        "amount": "0",
+        "currency": "USD"
+      },
+      "tolerance": {
+        "amount": "0.01",
+        "currency": "USD"
+      },
+      "status": "passed",
+      "checks": [
+        {
+          "name": "posting_policy",
+          "status": "passed",
+          "message": "Negative balance is preserved and no positive posting is created."
+        }
+      ],
+      "issues": [],
+      "human_review_required": false
+    },
+    "parser": {
+      "parser_family": "xlsx_pulse_cumulative_balance",
+      "parser_version": "1.0.0",
+      "confidence": "0.99",
+      "config_version": "1.0.0"
+    }
+  },
+  {
+    "schema_version": "1.0.0",
+    "report_id": "gamma_licensing_2026_01",
+    "report_status": "ready",
+    "sample_notes": "The payable is a running balance, while period earned is stored separately.",
+    "source": {
+      "reporting_party": {
+        "source_name": "EENT Inc (EENINC)",
+        "canonical_name": "Gamma Broadcast Group Inc. Licensing",
+        "canonical_id": null
+      },
+      "account_holder": "New Media Group",
+      "report_type": "running_balance_statement",
+      "report_family": "gamma_licensing",
+      "statement_reference": "EENT Inc Jan 2026",
+      "source_files": [
+        {
+          "file_name": "EENT Inc (EENINC) Jan 2026 USD 1 861.99.xlsx",
+          "sha256": "3c36bbb24d7a4bf15f651078517e1b026ac4c0d78326a3e934a32cfb87a09ce3",
+          "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "role": "primary",
+          "source_locator": "Monthly Summary, VOD, Linear, and SVOD sheets"
+        }
+      ]
+    },
+    "period": {
+      "start_date": "2026-01-01",
+      "end_date": "2026-01-31",
+      "label": "January 2026",
+      "statement_date": null,
+      "invoice_date": "2026-04-30",
+      "due_date": "2026-06-30"
+    },
+    "currency": "USD",
+    "financial_summary": {
+      "gross_sales": null,
+      "period_royalty_earned": {
+        "amount": "1507.082659",
+        "currency": "USD"
+      },
+      "prior_balance": null,
+      "collections": null,
+      "fees": {
+        "amount": "45",
+        "currency": "USD"
+      },
+      "expenses": null,
+      "payments": null,
+      "reserves": null,
+      "adjustments": null,
+      "net_payable": {
+        "amount": "1861.987866",
+        "currency": "USD"
+      },
+      "components": [
+        {
+          "type": "vod",
+          "amount": {
+            "amount": "912.6052965",
+            "currency": "USD"
+          },
+          "source_label": "VOD"
+        },
+        {
+          "type": "linear",
+          "amount": {
+            "amount": "517.8",
+            "currency": "USD"
+          },
+          "source_label": "Linear"
+        },
+        {
+          "type": "svod",
+          "amount": {
+            "amount": "76.6773627941691",
+            "currency": "USD"
+          },
+          "source_label": "SVOD"
+        },
+        {
+          "type": "running_net_royalty_due",
+          "amount": {
+            "amount": "1906.987866",
+            "currency": "USD"
+          },
+          "source_label": "Net Royalty Due before wire fee"
+        }
+      ]
+    },
+    "line_items": [],
+    "allocations": [],
+    "accounting_postings": [
+      {
+        "posting_id": "gamma_licensing_2026_01_posting",
+        "posting_type": "invoice",
+        "customer": "Gamma Broadcast Group Inc. Licensing",
+        "studio": "EENT Inc.",
+        "amount": {
+          "amount": "1861.99",
+          "currency": "USD"
+        },
+        "memo": "Licensing January 2026",
+        "invoice_date": "2026-04-30",
+        "due_date": "2026-06-30",
+        "vertical": "Licensing",
+        "invoice_number": null,
+        "entered_at": null,
+        "exported_at": null,
+        "status": "ready",
+        "suppression_reason": null,
+        "source_line_ids": []
+      }
+    ],
+    "validation": {
+      "declared_total": {
+        "amount": "1861.987866",
+        "currency": "USD"
+      },
+      "computed_total": {
+        "amount": "1861.987866",
+        "currency": "USD"
+      },
+      "difference": {
+        "amount": "0",
+        "currency": "USD"
+      },
+      "tolerance": {
+        "amount": "0.01",
+        "currency": "USD"
+      },
+      "status": "passed",
+      "checks": [
+        {
+          "name": "period_components",
+          "status": "passed",
+          "message": "VOD, Linear, and SVOD equal current period royalties."
+        },
+        {
+          "name": "wire_fee",
+          "status": "passed",
+          "message": "Running due less the 45 USD fee equals the highlighted payable."
+        }
+      ],
+      "issues": [],
+      "human_review_required": false
+    },
+    "parser": {
+      "parser_family": "xlsx_gamma_running_balance",
+      "parser_version": "1.0.0",
+      "confidence": "0.98",
+      "config_version": "1.0.0"
+    }
+  },
+  {
+    "schema_version": "1.0.0",
+    "report_id": "omnet_2026_04",
+    "report_status": "review",
+    "sample_notes": "The xlsx is an image container. The image is the source locator.",
+    "source": {
+      "reporting_party": {
+        "source_name": "OMNet AG",
+        "canonical_name": "OMNet AG",
+        "canonical_id": null
+      },
+      "account_holder": "New Media Group",
+      "report_type": "image_based_royalty_statement",
+      "report_family": "omnet_embedded_image",
+      "statement_reference": null,
+      "source_files": [
+        {
+          "file_name": "NMG-2026-04.xlsx",
+          "sha256": "80709e854bd124de6ae901beec169ae8dc139efafc6de5c5223fbb1bee2d2460",
+          "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "role": "primary",
+          "source_locator": "embedded image on worksheet"
+        }
+      ]
+    },
+    "period": {
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-30",
+      "label": "April 2026",
+      "statement_date": null,
+      "invoice_date": "2026-04-30",
+      "due_date": "2026-06-30"
+    },
+    "currency": "USD",
+    "financial_summary": {
+      "gross_sales": {
+        "amount": "267.14",
+        "currency": "USD"
+      },
+      "period_royalty_earned": null,
+      "prior_balance": null,
+      "collections": null,
+      "fees": null,
+      "expenses": null,
+      "payments": null,
+      "reserves": null,
+      "adjustments": null,
+      "net_payable": {
+        "amount": "106.86",
+        "currency": "USD"
+      },
+      "components": []
+    },
+    "line_items": [],
+    "allocations": [],
+    "accounting_postings": [],
+    "validation": {
+      "declared_total": {
+        "amount": "106.86",
+        "currency": "USD"
+      },
+      "computed_total": {
+        "amount": "106.86",
+        "currency": "USD"
+      },
+      "difference": {
+        "amount": "0",
+        "currency": "USD"
+      },
+      "tolerance": {
+        "amount": "0.01",
+        "currency": "USD"
+      },
+      "status": "warning",
+      "checks": [
+        {
+          "name": "share_rate",
+          "status": "passed",
+          "message": "The report share is 40 percent of gross after source rounding."
+        },
+        {
+          "name": "studio_aliases",
+          "status": "warning",
+          "message": "Label code aliases require an approved mapping table."
+        }
+      ],
+      "issues": [
+        "Image extraction requires a review gate."
+      ],
+      "human_review_required": true
+    },
+    "parser": {
+      "parser_family": "xlsx_embedded_image_omnet",
+      "parser_version": "1.0.0",
+      "confidence": "0.90",
+      "config_version": "1.0.0"
+    }
+  },
+  {
+    "schema_version": "1.0.0",
+    "report_id": "sonifi_2026_04",
+    "report_status": "blocked",
+    "sample_notes": "Source royalty extraction is ready. Studio allocation and postings remain blocked.",
+    "source": {
+      "reporting_party": {
+        "source_name": "Sonifi Solutions",
+        "canonical_name": "Sonifi Solutions",
+        "canonical_id": null
+      },
+      "account_holder": "NMG MEDIA LLC",
+      "report_type": "royalty_statement",
+      "report_family": "sonifi_text_statement",
+      "statement_reference": "46380",
+      "source_files": [
+        {
+          "file_name": "statement-46380-NMGMEDIA (1).docx",
+          "sha256": "4a6aa40c175e9a999dbc0e8b75801156754bcfaae7af9134cb8cf2ca59d56ee2",
+          "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "role": "primary",
+          "source_locator": "document text"
+        },
+        {
+          "file_name": "Sonifi Royalties April 2025 - January 2026.xlsx",
+          "sha256": "5ed0f940b0b77a775d0855a9c6047b580d25d3d14253b2380bd9d8d22c845565",
+          "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "role": "allocation_model",
+          "source_locator": "Total and title mapping sheets"
+        }
+      ]
+    },
+    "period": {
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-30",
+      "label": "202604",
+      "statement_date": null,
+      "invoice_date": null,
+      "due_date": null
+    },
+    "currency": "USD",
+    "financial_summary": {
+      "gross_sales": {
+        "amount": "23596.16",
+        "currency": "USD"
+      },
+      "period_royalty_earned": {
+        "amount": "1415.76",
+        "currency": "USD"
+      },
+      "prior_balance": null,
+      "collections": null,
+      "fees": null,
+      "expenses": null,
+      "payments": null,
+      "reserves": null,
+      "adjustments": null,
+      "net_payable": {
+        "amount": "1415.76",
+        "currency": "USD"
+      },
+      "components": []
+    },
+    "line_items": [
+      {
+        "line_id": "sonifi_000034",
+        "line_type": "royalty",
+        "event_date": null,
+        "source_invoice_number": null,
+        "studio": {
+          "source_name": null,
+          "canonical_name": null,
+          "parent_entity": null,
+          "billing_entity": null,
+          "lookup_status": "unmatched"
+        },
+        "title": {
+          "source_title": "MA Package: All Access - STREAMATE",
+          "canonical_title": null,
+          "source_title_id": "000034"
+        },
+        "platform": "Sonifi",
+        "channel": "All Access package",
+        "territory": null,
+        "revenue_type": "package",
+        "quantity": {
+          "value": "1082",
+          "unit": "buy"
+        },
+        "gross_amount": {
+          "amount": "3842.81",
+          "currency": "USD"
+        },
+        "share_rate": "0.0600",
+        "fee_rate": null,
+        "fee_amount": null,
+        "expense_amount": null,
+        "net_amount": {
+          "amount": "230.57",
+          "currency": "USD"
+        },
+        "source_location": {
+          "file_name": "statement-46380-NMGMEDIA (1).docx",
+          "sheet_name": null,
+          "page_number": null,
+          "row_number": null,
+          "cell_range": null,
+          "image_name": null
+        },
+        "raw_fields": {}
+      }
+    ],
+    "allocations": [
+      {
+        "allocation_id": "sonifi_package_allocation_pending",
+        "basis": "package_split",
+        "rule_id": null,
+        "source_line_ids": [
+          "sonifi_000034"
+        ],
+        "studio": {
+          "source_name": null,
+          "canonical_name": null,
+          "parent_entity": null,
+          "billing_entity": null,
+          "lookup_status": "unmatched"
+        },
+        "amount": null,
+        "status": "blocked"
+      }
+    ],
+    "accounting_postings": [],
+    "validation": {
+      "declared_total": {
+        "amount": "1415.76",
+        "currency": "USD"
+      },
+      "computed_total": {
+        "amount": "1415.76",
+        "currency": "USD"
+      },
+      "difference": {
+        "amount": "0",
+        "currency": "USD"
+      },
+      "tolerance": {
+        "amount": "0.01",
+        "currency": "USD"
+      },
+      "status": "warning",
+      "checks": [
+        {
+          "name": "source_statement",
+          "status": "passed",
+          "message": "Fourteen title blocks sum to the stated sales and royalty totals."
+        },
+        {
+          "name": "allocation_model",
+          "status": "failed",
+          "message": "Allocation policy is unresolved and P24 references O11 instead of O24."
+        }
+      ],
+      "issues": [
+        "Do not create studio postings yet."
+      ],
+      "human_review_required": true
+    },
+    "parser": {
+      "parser_family": "docx_sonifi_statement",
+      "parser_version": "1.0.0",
+      "confidence": "0.99",
+      "config_version": "1.0.0"
+    }
+  },
+  {
+    "schema_version": "1.0.0",
+    "report_id": "aebn_2026_04",
+    "report_status": "review",
+    "sample_notes": "Title Total is used for allocation. Portal payout is retained as the declared amount.",
+    "source": {
+      "reporting_party": {
+        "source_name": "AEBN Webmaster",
+        "canonical_name": "WMM Holdings LLC (AEBN)",
+        "canonical_id": null
+      },
+      "account_holder": "New Media Group LLC",
+      "report_type": "royalty_statement",
+      "report_family": "aebn_title_payout",
+      "statement_reference": null,
+      "source_files": [
+        {
+          "file_name": "Studio Statistics - Payout by Title  AEBN Webmaster.xlsx",
+          "sha256": "a25f6532c57199a665292f92a6dcbed56948bf72cde990d1b856ca49054c2f0a",
+          "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "role": "primary",
+          "source_locator": "single sheet"
+        },
+        {
+          "file_name": "Screen Shot 2026-05-17 at 4.18.23 PM.png",
+          "sha256": "9866348369c33556871baf0fa7f3b89a04e2f882ff43761af004db176dac4531",
+          "media_type": "image/png",
+          "role": "verification",
+          "source_locator": "New Media Group LLC payout row"
+        }
+      ]
+    },
+    "period": {
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-30",
+      "label": "April 2026",
+      "statement_date": null,
+      "invoice_date": "2026-04-30",
+      "due_date": "2026-06-30"
+    },
+    "currency": "USD",
+    "financial_summary": {
+      "gross_sales": null,
+      "period_royalty_earned": {
+        "amount": "7097.60",
+        "currency": "USD"
+      },
+      "prior_balance": null,
+      "collections": null,
+      "fees": null,
+      "expenses": null,
+      "payments": null,
+      "reserves": null,
+      "adjustments": null,
+      "net_payable": {
+        "amount": "7097.60",
+        "currency": "USD"
+      },
+      "components": [
+        {
+          "type": "ppm",
+          "amount": {
+            "amount": "5166.89",
+            "currency": "USD"
+          },
+          "source_label": "PPM"
+        },
+        {
+          "type": "rental",
+          "amount": {
+            "amount": "708.78",
+            "currency": "USD"
+          },
+          "source_label": "Rental"
+        },
+        {
+          "type": "download",
+          "amount": {
+            "amount": "1222.39",
+            "currency": "USD"
+          },
+          "source_label": "Download"
+        }
+      ]
+    },
+    "line_items": [],
+    "allocations": [],
+    "accounting_postings": [],
+    "validation": {
+      "declared_total": {
+        "amount": "7097.61",
+        "currency": "USD"
+      },
+      "computed_total": {
+        "amount": "7097.60",
+        "currency": "USD"
+      },
+      "difference": {
+        "amount": "-0.01",
+        "currency": "USD"
+      },
+      "tolerance": {
+        "amount": "0.01",
+        "currency": "USD"
+      },
+      "status": "warning",
+      "checks": [
+        {
+          "name": "portal_difference",
+          "status": "warning",
+          "message": "The portal payout is one cent above the line Total sum."
+        },
+        {
+          "name": "component_rounding",
+          "status": "warning",
+          "message": "Displayed components sum 0.46 USD above the line Total sum due to row rounding."
+        }
+      ],
+      "issues": [
+        "Accounting must define how to handle the one cent declared difference."
+      ],
+      "human_review_required": true
+    },
+    "parser": {
+      "parser_family": "xlsx_aebn_title",
+      "parser_version": "1.0.0",
+      "confidence": "0.98",
+      "config_version": "1.0.0"
+    }
+  }
+]

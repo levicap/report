@@ -1,0 +1,23 @@
+﻿existing_field,canonical_json_path,keep,rule
+Customer,accounting_postings[].customer,yes,Map through customer_lookup.csv and preserve the source name in source.reporting_party.source_name.
+Studio,accounting_postings[].studio,yes,"Map through an approved alias layer, then studio_lookup.csv. Preserve source studio text."
+Amount,accounting_postings[].amount,yes,Use a money object with decimal string and currency. Do not reuse this field for gross sales.
+Memo,accounting_postings[].memo,yes,"Generate from vendor, vertical, period, and approved suffix rules."
+Invoice Date,accounting_postings[].invoice_date,yes,Derive by vendor policy. Keep report statement date separately.
+Due Date,accounting_postings[].due_date,yes,Derive by customer terms or source invoice. Do not infer silently when terms are unknown.
+Vertical,accounting_postings[].vertical,yes,Use controlled values from vertical_lookup.csv.
+Date Entered,accounting_postings[].entered_at,yes,System generated audit timestamp.
+Date Added to Airtable,accounting_postings[].exported_at,yes,Destination system audit timestamp. It is not a source fact.
+Antoinette or Val Invoice#,accounting_postings[].invoice_number,yes,Rename to invoice_number and record whether it came from the source or was assigned internally.
+,source.source_files[].sha256,new,Required for duplicate detection and audit evidence.
+,period.start_date and period.end_date,new,Required. Memo text is not a reliable period field.
+,currency,new,Required for every report and money object.
+,line_items[].title,new,"Preserve title, source identifier, and canonical title when available."
+,line_items[].quantity,new,"Preserve units, plays, minutes, seconds, rentals, downloads, or sales."
+,line_items[].gross_amount,new,Store gross source amount separately from payable amount.
+,line_items[].share_rate,new,Store the contractual or source stated share rate.
+,line_items[].fee_amount and financial_summary.fees,new,Store fees separately. Do not fold them into an unlabeled amount.
+,"financial_summary.prior_balance, payments, reserves, adjustments",new,Required for cumulative statements such as Pulse and Gamma Licensing.
+,line_items[].source_location,new,"Required for row, sheet, page, and image traceability."
+,validation,new,Required. Reconcile computed totals to source totals before a posting is ready.
+,parser,new,"Store parser family, version, confidence, and config version."

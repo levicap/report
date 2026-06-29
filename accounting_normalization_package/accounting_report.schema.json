@@ -1,0 +1,969 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/accounting_report.schema.json",
+  "title": "Normalized Accounting Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_status",
+    "source",
+    "period",
+    "currency",
+    "financial_summary",
+    "line_items",
+    "allocations",
+    "accounting_postings",
+    "validation",
+    "parser"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "report_status": {
+      "enum": [
+        "ready",
+        "review",
+        "blocked",
+        "suppressed"
+      ]
+    },
+    "sample_notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "period": {
+      "$ref": "#/$defs/period"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^(?:[A-Z]{3}|UNKNOWN)$"
+    },
+    "financial_summary": {
+      "$ref": "#/$defs/financial_summary"
+    },
+    "line_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/line_item"
+      }
+    },
+    "allocations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/allocation"
+      }
+    },
+    "accounting_postings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/posting"
+      }
+    },
+    "validation": {
+      "$ref": "#/$defs/validation"
+    },
+    "parser": {
+      "$ref": "#/$defs/parser"
+    }
+  },
+  "$defs": {
+    "decimal_string": {
+      "type": "string",
+      "pattern": "^-?[0-9]+(?:\\.[0-9]+)?$"
+    },
+    "date_or_null": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "$ref": "#/$defs/decimal_string"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^(?:[A-Z]{3}|UNKNOWN)$"
+        }
+      }
+    },
+    "party": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_name",
+        "canonical_name",
+        "canonical_id"
+      ],
+      "properties": {
+        "source_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "canonical_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "canonical_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file_name",
+        "sha256",
+        "media_type",
+        "role",
+        "source_locator"
+      ],
+      "properties": {
+        "file_name": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "media_type": {
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "primary",
+            "supporting",
+            "verification",
+            "duplicate",
+            "allocation_model"
+          ]
+        },
+        "source_locator": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reporting_party",
+        "account_holder",
+        "report_type",
+        "report_family",
+        "statement_reference",
+        "source_files"
+      ],
+      "properties": {
+        "reporting_party": {
+          "$ref": "#/$defs/party"
+        },
+        "account_holder": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "report_type": {
+          "type": "string"
+        },
+        "report_family": {
+          "type": "string"
+        },
+        "statement_reference": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source_file"
+          }
+        }
+      }
+    },
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_date",
+        "end_date",
+        "label",
+        "statement_date",
+        "invoice_date",
+        "due_date"
+      ],
+      "properties": {
+        "start_date": {
+          "$ref": "#/$defs/date_or_null"
+        },
+        "end_date": {
+          "$ref": "#/$defs/date_or_null"
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "statement_date": {
+          "$ref": "#/$defs/date_or_null"
+        },
+        "invoice_date": {
+          "$ref": "#/$defs/date_or_null"
+        },
+        "due_date": {
+          "$ref": "#/$defs/date_or_null"
+        }
+      }
+    },
+    "named_money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "amount",
+        "source_label"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "amount": {
+          "$ref": "#/$defs/money"
+        },
+        "source_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "financial_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gross_sales",
+        "period_royalty_earned",
+        "prior_balance",
+        "collections",
+        "fees",
+        "expenses",
+        "payments",
+        "reserves",
+        "adjustments",
+        "net_payable",
+        "components"
+      ],
+      "properties": {
+        "gross_sales": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "period_royalty_earned": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "prior_balance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "collections": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fees": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expenses": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "payments": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reserves": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "adjustments": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "net_payable": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/named_money"
+          }
+        }
+      }
+    },
+    "studio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_name",
+        "canonical_name",
+        "parent_entity",
+        "billing_entity",
+        "lookup_status"
+      ],
+      "properties": {
+        "source_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "canonical_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parent_entity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "billing_entity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lookup_status": {
+          "enum": [
+            "matched",
+            "unmatched",
+            "ambiguous",
+            "not_applicable"
+          ]
+        }
+      }
+    },
+    "title": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_title",
+        "canonical_title",
+        "source_title_id"
+      ],
+      "properties": {
+        "source_title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "canonical_title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_title_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "quantity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/decimal_string"
+        },
+        "unit": {
+          "type": "string"
+        }
+      }
+    },
+    "source_location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file_name",
+        "sheet_name",
+        "page_number",
+        "row_number",
+        "cell_range",
+        "image_name"
+      ],
+      "properties": {
+        "file_name": {
+          "type": "string"
+        },
+        "sheet_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "page_number": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "row_number": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "cell_range": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "image_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "line_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_id",
+        "line_type",
+        "event_date",
+        "source_invoice_number",
+        "studio",
+        "title",
+        "platform",
+        "channel",
+        "territory",
+        "revenue_type",
+        "quantity",
+        "gross_amount",
+        "share_rate",
+        "fee_rate",
+        "fee_amount",
+        "expense_amount",
+        "net_amount",
+        "source_location",
+        "raw_fields"
+      ],
+      "properties": {
+        "line_id": {
+          "type": "string"
+        },
+        "line_type": {
+          "type": "string"
+        },
+        "event_date": {
+          "$ref": "#/$defs/date_or_null"
+        },
+        "source_invoice_number": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "studio": {
+          "$ref": "#/$defs/studio"
+        },
+        "title": {
+          "$ref": "#/$defs/title"
+        },
+        "platform": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "channel": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "territory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revenue_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "gross_amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "share_rate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/decimal_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fee_rate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/decimal_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fee_amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expense_amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "net_amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_location": {
+          "$ref": "#/$defs/source_location"
+        },
+        "raw_fields": {
+          "type": "object"
+        }
+      }
+    },
+    "allocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allocation_id",
+        "basis",
+        "rule_id",
+        "source_line_ids",
+        "studio",
+        "amount",
+        "status"
+      ],
+      "properties": {
+        "allocation_id": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_line_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "studio": {
+          "$ref": "#/$defs/studio"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "resolved",
+            "pending",
+            "blocked"
+          ]
+        }
+      }
+    },
+    "posting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "posting_id",
+        "posting_type",
+        "customer",
+        "studio",
+        "amount",
+        "memo",
+        "invoice_date",
+        "due_date",
+        "vertical",
+        "invoice_number",
+        "entered_at",
+        "exported_at",
+        "status",
+        "suppression_reason",
+        "source_line_ids"
+      ],
+      "properties": {
+        "posting_id": {
+          "type": "string"
+        },
+        "posting_type": {
+          "enum": [
+            "invoice",
+            "bill",
+            "journal_entry",
+            "hold"
+          ]
+        },
+        "customer": {
+          "type": "string"
+        },
+        "studio": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "amount": {
+          "$ref": "#/$defs/money"
+        },
+        "memo": {
+          "type": "string"
+        },
+        "invoice_date": {
+          "$ref": "#/$defs/date_or_null"
+        },
+        "due_date": {
+          "$ref": "#/$defs/date_or_null"
+        },
+        "vertical": {
+          "type": "string"
+        },
+        "invoice_number": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entered_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "exported_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "status": {
+          "enum": [
+            "ready",
+            "suppressed",
+            "review",
+            "blocked"
+          ]
+        },
+        "suppression_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_line_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "status",
+        "message"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "warning",
+            "failed"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declared_total",
+        "computed_total",
+        "difference",
+        "tolerance",
+        "status",
+        "checks",
+        "issues",
+        "human_review_required"
+      ],
+      "properties": {
+        "declared_total": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "computed_total": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "difference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tolerance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "warning",
+            "failed"
+          ]
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/check"
+          }
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "human_review_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "parser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parser_family",
+        "parser_version",
+        "confidence",
+        "config_version"
+      ],
+      "properties": {
+        "parser_family": {
+          "type": "string"
+        },
+        "parser_version": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/decimal_string"
+        },
+        "config_version": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+﻿file,report_date,paid_units,detail_rows,gross_paid_amount_usd,distribution_fee_usd,expense_total_usd,final_due_usd,detail_quantity_difference,detail_amount_difference,validation
+LHFS 4-26.xlsx,2026-05-01,67,14,260,-78,0,182,0.0,0.0,passed
+LWI-DEEP 4-26.xlsx,2026-05-01,257,60,2097.5,-629.25,0,1468.25,0.0,0.0,passed
+MYLF 4-26.xlsx,2026-05-01,873,179,5857,-1757.1,0,4099.9,0.0,0.0,passed
+PURE 4-26.xlsx,2026-05-01,1305,312,7777,-2333.10,-146.76,5297.14,0.0,0.0,passed
+VISN 4-26.xlsx,2026-05-01,568,148,3466.5,-1039.950,-146.63,2279.92,0.0,0.0,passed
