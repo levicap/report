@@ -3,6 +3,9 @@ import { Activity, AlertTriangle, ArrowRight, CheckCircle2, Clock3, CopyCheck, F
 import { getDashboardData } from "@/lib/dashboard";
 import { compactHash, formatAmount, formatDate } from "@/lib/format";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const data = await getDashboardData();
   const stats = data.fileDashboard;
@@ -28,7 +31,7 @@ export default async function DashboardPage() {
 
       {!data.configured ? (
         <div className="setup">
-          Supabase is not configured. Set `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`, then run the SQL files in `supabase/sql`.
+          Supabase is not configured. Set `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_SECRET_KEY`, then run the SQL files in `supabase/sql`.
         </div>
       ) : null}
 

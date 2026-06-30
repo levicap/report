@@ -2,6 +2,9 @@ import { CheckCircle, Eye, XCircle } from "lucide-react";
 import { getDashboardData } from "@/lib/dashboard";
 import { formatDate } from "@/lib/format";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export default async function ReviewPage() {
   const data = await getDashboardData();
 

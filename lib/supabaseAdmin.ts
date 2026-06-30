@@ -4,7 +4,7 @@ let cachedClient: SupabaseClient | null = null;
 
 export function getSupabaseAdmin(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const key = getSupabaseServerKey();
 
   if (!url || !key || key === "replace_with_supabase_service_role_key") {
     return null;
@@ -25,8 +25,11 @@ export function getSupabaseAdmin(): SupabaseClient | null {
 export function requireSupabaseAdmin(): SupabaseClient {
   const client = getSupabaseAdmin();
   if (!client) {
-    throw new Error("Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.");
+    throw new Error("Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY or SUPABASE_SECRET_KEY.");
   }
   return client;
 }
 
+function getSupabaseServerKey(): string | undefined {
+  return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY;
+}

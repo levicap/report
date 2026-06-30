@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BarChart3, Database, FileSearch, Inbox, Upload } from "lucide-react";
+import { BarChart3, Database, FileSearch, MessageSquareText, Upload } from "lucide-react";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,7 +11,8 @@ const navItems = [
   { href: "/", label: "Dashboard", icon: BarChart3 },
   { href: "/upload", label: "Upload", icon: Upload },
   { href: "/reports", label: "Reports", icon: Database },
-  { href: "/review", label: "Review", icon: FileSearch }
+  { href: "/review", label: "Review", icon: FileSearch },
+  { href: "/comments", label: "Comments", icon: MessageSquareText }
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -37,9 +38,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </nav>
           </aside>
           <main className="main">
-            <div aria-hidden="true" style={{ display: "none" }}>
-              <Inbox />
-            </div>
             {children}
           </main>
         </div>
@@ -47,4 +45,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-

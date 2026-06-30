@@ -90,3 +90,33 @@ export type ReconciliationPageData = {
   totalRows: number;
   totalPages: number;
 };
+
+export type RecordCommentRow = {
+  id: string;
+  report_id: string;
+  report_record_id: string;
+  comment_text: string;
+  created_by: string | null;
+  created_at: string;
+  report_key: string | null;
+  report_status: string | null;
+  platform: string | null;
+  source_file_name: string | null;
+  source_file_names: string[];
+  record_key: string | null;
+  record_status: string | null;
+  customer: string | null;
+  studio: string | null;
+  amount: number | string | null;
+  currency: string | null;
+  memo: string | null;
+};
+
+export type CommentsPageData = {
+  configured: boolean;
+  rows: RecordCommentRow[];
+  page: number;
+  pageSize: number;
+  totalRows: number;
+  totalPages: number;
+};

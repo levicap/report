@@ -2,6 +2,9 @@ import { ChevronLeft, ChevronRight, Eye, Search } from "lucide-react";
 import { getReconciliationPage } from "@/lib/dashboard";
 import { formatAmount } from "@/lib/format";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 type ReportsPageProps = {
   searchParams: Promise<{ page?: string; q?: string }>;
 };

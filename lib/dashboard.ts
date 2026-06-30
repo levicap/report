@@ -1,5 +1,14 @@
 import { getSupabaseAdmin } from "./supabaseAdmin";
-import type { DashboardData, FileDashboard, ReconciliationPageData, ReconciliationRow, ReviewItemRow, SourceFileRow } from "./types";
+import type {
+  CommentsPageData,
+  DashboardData,
+  FileDashboard,
+  ReconciliationPageData,
+  ReconciliationRow,
+  RecordCommentRow,
+  ReviewItemRow,
+  SourceFileRow
+} from "./types";
 
 const emptyFileDashboard: FileDashboard = {
   files_received: 0,
@@ -51,14 +60,21 @@ export async function getDashboardData(): Promise<DashboardData> {
     console.error(reviews.error);
   }
 
+  const viewFileDashboard = fileDashboard.data ?? emptyFileDashboard;
+  const fileDashboardRows = (files.data ?? []) as unknown as SourceFileRow[];
+  const resolvedFileDashboard =
+    fileDashboard.error || (!fileDashboard.error && viewFileDashboard.files_received === 0 && fileDashboardRows.length > 0)
+      ? await directFileDashboard(supabase)
+      : viewFileDashboard;
+
   const reconciliationRows = await attachSourceFileNames(supabase, (reconciliations.data ?? []) as ReconciliationRow[]);
   const reviewRows = await attachReviewSourceFileNames(supabase, (reviews.data ?? []) as unknown as ReviewItemRow[]);
 
   return {
     configured: true,
-    fileDashboard: fileDashboard.data ?? emptyFileDashboard,
+    fileDashboard: resolvedFileDashboard,
     reconciliations: reconciliationRows,
-    files: (files.data ?? []) as unknown as SourceFileRow[],
+    files: fileDashboardRows,
     reviews: reviewRows
   };
 }
@@ -156,6 +172,222 @@ function reconciliationMatchesSearch(row: ReconciliationRow, query: string): boo
     .some((value) => String(value).toLowerCase().includes(query));
 }
 
+export async function getCommentsPage(page: number, pageSize = 20, search = ""): Promise<CommentsPageData> {
+  const supabase = getSupabaseAdmin();
+  const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+  const safePageSize = Number.isFinite(pageSize) && pageSize > 0 ? Math.floor(pageSize) : 20;
+  const query = search.trim().toLowerCase();
+
+  if (!supabase) {
+    return {
+      configured: false,
+      rows: [],
+      page: safePage,
+      pageSize: safePageSize,
+      totalRows: 0,
+      totalPages: 1
+    };
+  }
+
+  if (query) {
+    const result = await supabase
+      .from("record_comments")
+      .select(COMMENT_SELECT)
+      .order("created_at", { ascending: false });
+
+    if (result.error) {
+      console.error(result.error);
+      return emptyCommentsPage(true, safePage, safePageSize);
+    }
+
+    const rowsWithFiles = await attachCommentSourceFileNames(supabase, toCommentRows(result.data ?? []));
+    const matchingRows = rowsWithFiles.filter((row) => commentMatchesSearch(row, query));
+    const totalRows = matchingRows.length;
+    const totalPages = Math.max(1, Math.ceil(totalRows / safePageSize));
+    const pageToUse = Math.min(safePage, totalPages);
+    const from = (pageToUse - 1) * safePageSize;
+
+    return {
+      configured: true,
+      rows: matchingRows.slice(from, from + safePageSize),
+      page: pageToUse,
+      pageSize: safePageSize,
+      totalRows,
+      totalPages
+    };
+  }
+
+  const from = (safePage - 1) * safePageSize;
+  const to = from + safePageSize - 1;
+  const result = await supabase
+    .from("record_comments")
+    .select(COMMENT_SELECT, { count: "exact" })
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (result.error) {
+    console.error(result.error);
+    return emptyCommentsPage(true, safePage, safePageSize);
+  }
+
+  const totalRows = result.count ?? 0;
+  const totalPages = Math.max(1, Math.ceil(totalRows / safePageSize));
+
+  if (safePage > totalPages && totalRows > 0) {
+    return getCommentsPage(totalPages, safePageSize, search);
+  }
+
+  const rows = await attachCommentSourceFileNames(supabase, toCommentRows(result.data ?? []));
+  return {
+    configured: true,
+    rows,
+    page: Math.min(safePage, totalPages),
+    pageSize: safePageSize,
+    totalRows,
+    totalPages
+  };
+}
+
+const COMMENT_SELECT = `
+  id,
+  report_id,
+  report_record_id,
+  comment_text,
+  created_by,
+  created_at,
+  reports(report_key, status, platforms(display_name)),
+  report_records(record_key, status, amount, currency, normalized_json)
+`;
+
+function emptyCommentsPage(configured: boolean, page: number, pageSize: number): CommentsPageData {
+  return {
+    configured,
+    rows: [],
+    page,
+    pageSize,
+    totalRows: 0,
+    totalPages: 1
+  };
+}
+
+function toCommentRows(rows: unknown[]): RecordCommentRow[] {
+  return (rows as any[]).map((row) => {
+    const report = nestedSource(row.reports);
+    const record = nestedSource(row.report_records);
+    const normalized = isObject(record?.normalized_json) ? record.normalized_json : {};
+    const amount = isObject(normalized.amount) ? normalized.amount : {};
+    return {
+      id: String(row.id),
+      report_id: String(row.report_id),
+      report_record_id: String(row.report_record_id),
+      comment_text: String(row.comment_text ?? ""),
+      created_by: stringOrNull(row.created_by),
+      created_at: String(row.created_at ?? ""),
+      report_key: stringOrNull(report?.report_key),
+      report_status: stringOrNull(report?.status),
+      platform: stringOrNull(nestedSource(report?.platforms)?.display_name),
+      source_file_name: null,
+      source_file_names: [],
+      record_key: stringOrNull(record?.record_key),
+      record_status: stringOrNull(record?.status),
+      customer: stringOrNull(normalized.customer),
+      studio: stringOrNull(normalized.studio),
+      amount: amount.amount ?? record?.amount ?? null,
+      currency: stringOrNull(amount.currency) ?? stringOrNull(record?.currency),
+      memo: stringOrNull(normalized.memo)
+    };
+  });
+}
+
+async function attachCommentSourceFileNames(supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>, rows: RecordCommentRow[]): Promise<RecordCommentRow[]> {
+  if (rows.length === 0) {
+    return rows;
+  }
+
+  const namesByReport = await sourceFileNamesByReportId(supabase, rows.map((row) => row.report_id));
+  return rows.map((row) => {
+    const names = namesByReport.get(row.report_id) ?? [];
+    return {
+      ...row,
+      source_file_name: names[0] ?? null,
+      source_file_names: names
+    };
+  });
+}
+
+function commentMatchesSearch(row: RecordCommentRow, query: string): boolean {
+  return [
+    row.comment_text,
+    row.created_by,
+    row.report_key,
+    row.report_status,
+    row.platform,
+    row.record_key,
+    row.record_status,
+    row.customer,
+    row.studio,
+    row.memo,
+    row.amount,
+    row.currency,
+    row.source_file_name,
+    ...(row.source_file_names ?? [])
+  ]
+    .filter(Boolean)
+    .some((value) => String(value).toLowerCase().includes(query));
+}
+
+async function directFileDashboard(supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>): Promise<FileDashboard> {
+  const [received, processed, duplicates, failed, awaitingReview] = await Promise.all([
+    countSourceFiles(supabase),
+    countSourceFiles(supabase, "processed"),
+    countSourceFiles(supabase, "duplicate"),
+    countSourceFiles(supabase, "failed"),
+    countFilesAwaitingReview(supabase)
+  ]);
+
+  return {
+    files_received: received,
+    files_processed: processed,
+    duplicate_files: duplicates,
+    failed_files: failed,
+    files_awaiting_review: awaitingReview
+  };
+}
+
+async function countSourceFiles(supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>, status?: string): Promise<number> {
+  let query = supabase.from("source_files").select("id", { count: "exact", head: true });
+  if (status) {
+    query = query.eq("status", status);
+  }
+  const result = await query;
+  if (result.error) {
+    console.error(result.error);
+    return 0;
+  }
+  return result.count ?? 0;
+}
+
+async function countFilesAwaitingReview(supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>): Promise<number> {
+  const reviews = await supabase.from("review_items").select("report_id").in("status", ["open", "assigned", "corrected"]);
+  if (reviews.error) {
+    console.error(reviews.error);
+    return 0;
+  }
+
+  const reportIds = Array.from(new Set((reviews.data ?? []).map((row: any) => row.report_id).filter(Boolean)));
+  if (reportIds.length === 0) {
+    return 0;
+  }
+
+  const links = await supabase.from("report_source_files").select("source_file_id").in("report_id", reportIds);
+  if (links.error) {
+    console.error(links.error);
+    return 0;
+  }
+
+  return new Set((links.data ?? []).map((row: any) => row.source_file_id).filter(Boolean)).size;
+}
+
 async function attachSourceFileNames(supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>, rows: ReconciliationRow[]): Promise<ReconciliationRow[]> {
   if (rows.length === 0) {
     return rows;
@@ -234,9 +466,20 @@ function sourceFileSort(a: any, b: any) {
   return score(a) - score(b);
 }
 
+function nestedSource(value: unknown): any {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 function nestedSourceFileName(value: unknown): string | null {
   const source = Array.isArray(value) ? value[0] : value;
   return isObject(source) && typeof source.original_file_name === "string" ? source.original_file_name : null;
+}
+
+function stringOrNull(value: unknown): string | null {
+  if (value === null || value === undefined || value === "") {
+    return null;
+  }
+  return String(value);
 }
 
 function isObject(value: unknown): value is Record<string, any> {
