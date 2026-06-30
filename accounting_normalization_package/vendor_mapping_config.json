@@ -92,6 +92,24 @@
       ],
       "posting_policy": "aggregate net allocation by studio"
     },
+    "bell_canada": {
+      "canonical_customer": "Bell Canada",
+      "vertical": "Licensing",
+      "currency": "UNKNOWN",
+      "automation_state": "source_ready_parser_missing",
+      "parser_family": "xlsx_bell_canada_payment",
+      "bundle_rule": "one PPV/VOD Studio Payment workbook plus optional PDF and title-to-studio mapping workbook",
+      "authoritative_amount_rule": "Distrib. Share from PPV/VOD Studio Payment rows",
+      "period_rule": "report issue date and folder month",
+      "calculations": [
+        "aggregate product rows by mapped official studio"
+      ],
+      "validations": [
+        "payment row total reconciles to source total where present",
+        "every product title maps through Bell Canada Titles and Studio.xlsx or a canonical brand rule"
+      ],
+      "posting_policy": "blocked until Bell Canada parser and title mapping integration are implemented"
+    },
     "dream_logistics": {
       "canonical_customer": "Dream Logistics BV",
       "vertical": "VOD",
@@ -366,17 +384,21 @@
     "velvet": {
       "canonical_customer": "Velvet Media B.V.",
       "vertical": "Licensing",
-      "currency": "UNKNOWN",
-      "automation_state": "blocked_missing_source",
-      "parser_family": "missing_velvet_source",
+      "currency": "EUR",
+      "automation_state": "source_ready_parser_missing",
+      "parser_family": "xlsx_velvet_rfi_specs",
       "bundle_rule": "expected workbook plus PDF with eight channel tabs",
-      "authoritative_amount_rule": "not available in supplied files",
-      "period_rule": "not available",
-      "calculations": [],
-      "validations": [
-        "file identity must not match AEBN"
+      "authoritative_amount_rule": "35% / payout share columns by channel tab",
+      "period_rule": "RFI number and folder month",
+      "calculations": [
+        "aggregate channel rows by source label/brand",
+        "use the channel-specific final royalty column, usually 35%"
       ],
-      "posting_policy": "no posting until correct source is supplied"
+      "validations": [
+        "workbook totals must reconcile to paired RFI PDF when present",
+        "every source label must map to a canonical Airtable studio"
+      ],
+      "posting_policy": "blocked until Velvet RFI parser is implemented and checked against Airtable rows"
     }
   }
 }

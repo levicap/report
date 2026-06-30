@@ -268,7 +268,7 @@ async function persistParserResult(supabase: ReturnType<typeof requireSupabaseAd
 }
 
 async function resetReportDerivedData(supabase: ReturnType<typeof requireSupabaseAdmin>, reportId: string) {
-  for (const table of ["review_items", "validation_results", "field_provenance", "report_records"]) {
+  for (const table of ["record_comments", "review_items", "validation_results", "field_provenance", "report_records"]) {
     await deleteReportRowsInBatches(supabase, table, reportId);
   }
 }
@@ -520,6 +520,9 @@ async function deleteReportRowsInBatches(
       .limit(DELETE_BATCH_SIZE);
 
     if (selected.error) {
+      if (isMissingRelationError(selected.error)) {
+        return;
+      }
       throw selected.error;
     }
 
@@ -530,9 +533,16 @@ async function deleteReportRowsInBatches(
 
     const deleted = await supabase.from(table).delete().in("id", ids);
     if (deleted.error) {
+      if (isMissingRelationError(deleted.error)) {
+        return;
+      }
       throw deleted.error;
     }
   }
+}
+
+function isMissingRelationError(error: { code?: string; message?: string }) {
+  return error.code === "42P01" || /does not exist|schema cache/i.test(error.message ?? "");
 }
 
 function chunk<T>(items: T[], size: number): T[][] {

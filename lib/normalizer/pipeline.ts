@@ -8,7 +8,7 @@ import type { ParserResult } from "./types";
 export function parseReportFromBuffer(bytes: Buffer, originalName: string): ParserResult {
   const refs = loadReferenceData();
   const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
-  const classification = classifyFile(originalName, sha256, refs);
+  const classification = classifyFile(originalName, sha256, refs, bytes);
   let result = parseByFamily(bytes, originalName, sha256, classification, refs);
   result = ensurePostingRecords(result);
 

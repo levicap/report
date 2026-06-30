@@ -332,6 +332,19 @@ create table if not exists review_items (
 create index if not exists idx_review_items_report_id on review_items(report_id);
 create index if not exists idx_review_items_status_priority on review_items(status, priority);
 
+create table if not exists record_comments (
+  id uuid primary key default gen_random_uuid(),
+  report_id uuid not null references reports(id) on delete cascade,
+  report_record_id uuid not null references report_records(id) on delete cascade,
+  comment_text text not null check (length(trim(comment_text)) > 0),
+  created_by text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_record_comments_report_id on record_comments(report_id);
+create index if not exists idx_record_comments_record_id on record_comments(report_record_id, created_at desc);
+
 create table if not exists reconciliation_snapshots (
   id uuid primary key default gen_random_uuid(),
   report_id uuid not null references reports(id) on delete cascade,
@@ -483,6 +496,9 @@ create trigger trg_report_records_touch_updated_at before update on report_recor
 drop trigger if exists trg_review_items_touch_updated_at on review_items;
 create trigger trg_review_items_touch_updated_at before update on review_items for each row execute function touch_updated_at();
 
+drop trigger if exists trg_record_comments_touch_updated_at on record_comments;
+create trigger trg_record_comments_touch_updated_at before update on record_comments for each row execute function touch_updated_at();
+
 drop trigger if exists trg_exports_touch_updated_at on exports;
 create trigger trg_exports_touch_updated_at before update on exports for each row execute function touch_updated_at();
 
@@ -503,6 +519,7 @@ alter table report_records enable row level security;
 alter table field_provenance enable row level security;
 alter table validation_results enable row level security;
 alter table review_items enable row level security;
+alter table record_comments enable row level security;
 alter table reconciliation_snapshots enable row level security;
 alter table exports enable row level security;
 
@@ -601,7 +618,9 @@ select
   rr.normalized_json ->> 'due_date' as due_date,
   rr.normalized_json ->> 'vertical' as vertical,
   rr.normalized_json ->> 'invoice_number' as invoice_number,
-  rr.normalized_json as posting_json
+  rr.normalized_json as posting_json,
+  rr.normalized_json ->> 'entered_at' as entered_at,
+  rr.normalized_json ->> 'exported_at' as exported_at
 from report_records rr
 join reports r on r.id = rr.report_id
 where rr.record_type = 'posting'

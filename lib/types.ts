@@ -1,3 +1,5 @@
+import type { AirtableRow } from "./airtableExport";
+
 export type FileDashboard = {
   files_received: number;
   files_processed: number;
@@ -9,6 +11,8 @@ export type FileDashboard = {
 export type ReconciliationRow = {
   report_id: string;
   report_key: string;
+  source_file_name: string | null;
+  source_file_names: string[];
   platform: string | null;
   status: string;
   period_start: string | null;
@@ -45,17 +49,29 @@ export type SourceFileRow = {
 export type ReviewItemRow = {
   id: string;
   report_id: string;
+  report_record_id: string | null;
   status: string;
   priority: number;
   reason: string;
   created_at: string;
+  source_file_name?: string | null;
+  source_file_names?: string[];
+  airtable_rows?: ReviewAirtableRow[];
   reports?: {
     report_key: string;
     status: string;
+    invoice_date?: string | null;
+    due_date?: string | null;
+    period_end?: string | null;
     platforms?: {
       display_name: string;
     } | null;
   } | null;
+};
+
+export type ReviewAirtableRow = AirtableRow & {
+  record_status: string;
+  currency: string | null;
 };
 
 export type DashboardData = {

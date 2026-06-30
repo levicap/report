@@ -68,7 +68,7 @@ export default async function DashboardPage() {
             <table>
               <thead>
                 <tr>
-                  <th>Report</th>
+                  <th>File</th>
                   <th>Platform</th>
                   <th>Status</th>
                   <th>Source</th>
@@ -81,7 +81,10 @@ export default async function DashboardPage() {
               <tbody>
                 {data.reconciliations.map((row) => (
                   <tr key={row.report_id}>
-                    <td className="code">{row.report_key}</td>
+                    <td>
+                      <strong className="file-title">{row.source_file_name ?? row.report_key}</strong>
+                      <span className="row-subtext code">{row.report_key}</span>
+                    </td>
                     <td>{row.platform ?? "Unknown"}</td>
                     <td>
                       <span className={`status ${row.status}`}>{row.status}</span>

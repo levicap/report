@@ -64,8 +64,8 @@ function buildAirtableRow(record: any, defaults: ReportExportDefaults): Airtable
     "Invoice Date": valueOrBlank(record.invoice_date ?? defaults.invoiceDate),
     "Due Date": valueOrBlank(record.due_date ?? defaults.dueDate),
     Vertical: valueOrBlank(record.vertical),
-    "Date Entered": "",
-    "Date Added to Airtable": "",
+    "Date Entered": valueOrBlank(record.entered_at ?? record.date_entered),
+    "Date Added to Airtable": valueOrBlank(record.exported_at ?? record.date_added_to_airtable),
     "Antoinette or Val Invoice#": valueOrBlank(record.invoice_number)
   };
 

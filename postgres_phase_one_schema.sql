@@ -324,6 +324,19 @@ CREATE INDEX IF NOT EXISTS idx_review_items_report_id ON review_items(report_id)
 CREATE INDEX IF NOT EXISTS idx_review_items_record_id ON review_items(report_record_id);
 CREATE INDEX IF NOT EXISTS idx_review_items_status_priority ON review_items(status, priority);
 
+CREATE TABLE IF NOT EXISTS record_comments (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  report_id uuid NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
+  report_record_id uuid NOT NULL REFERENCES report_records(id) ON DELETE CASCADE,
+  comment_text text NOT NULL CHECK (length(trim(comment_text)) > 0),
+  created_by text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_record_comments_report_id ON record_comments(report_id);
+CREATE INDEX IF NOT EXISTS idx_record_comments_record_id ON record_comments(report_record_id, created_at DESC);
+
 CREATE TABLE IF NOT EXISTS reconciliation_snapshots (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   report_id uuid NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
@@ -512,6 +525,11 @@ CREATE TRIGGER trg_review_items_touch_updated_at
 BEFORE UPDATE ON review_items
 FOR EACH ROW EXECUTE FUNCTION touch_updated_at();
 
+DROP TRIGGER IF EXISTS trg_record_comments_touch_updated_at ON record_comments;
+CREATE TRIGGER trg_record_comments_touch_updated_at
+BEFORE UPDATE ON record_comments
+FOR EACH ROW EXECUTE FUNCTION touch_updated_at();
+
 DROP TRIGGER IF EXISTS trg_exports_touch_updated_at ON exports;
 CREATE TRIGGER trg_exports_touch_updated_at
 BEFORE UPDATE ON exports
@@ -642,7 +660,9 @@ SELECT
   rr.normalized_json ->> 'due_date' AS due_date,
   rr.normalized_json ->> 'vertical' AS vertical,
   rr.normalized_json ->> 'invoice_number' AS invoice_number,
-  rr.normalized_json AS posting_json
+  rr.normalized_json AS posting_json,
+  rr.normalized_json ->> 'entered_at' AS entered_at,
+  rr.normalized_json ->> 'exported_at' AS exported_at
 FROM report_records rr
 JOIN reports r ON r.id = rr.report_id
 WHERE rr.record_type = 'posting'
@@ -660,4 +680,3 @@ WHERE rr.record_type = 'posting'
     WHERE ri.report_id = r.id
       AND ri.status IN ('open', 'assigned', 'corrected')
   );
-

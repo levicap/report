@@ -1,4 +1,4 @@
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, Eye, XCircle } from "lucide-react";
 import { getDashboardData } from "@/lib/dashboard";
 import { formatDate } from "@/lib/format";
 
@@ -17,37 +17,56 @@ export default async function ReviewPage() {
       <section className="panel">
         <div className="panel-header">
           <h2>Open Items</h2>
+          <span className="preview-count">{data.reviews.length} pending</span>
         </div>
         <div className="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Priority</th>
+                <th>File</th>
                 <th>Report</th>
+                <th>Priority</th>
                 <th>Reason</th>
+                <th>Status</th>
                 <th>Created</th>
-                <th>Action</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {data.reviews.map((item) => (
                 <tr key={item.id}>
+                  <td>
+                    <strong>{item.source_file_name ?? "Missing file"}</strong>
+                    {item.source_file_names && item.source_file_names.length > 1 ? (
+                      <span className="row-subtext">{item.source_file_names.length} source files</span>
+                    ) : null}
+                  </td>
+                  <td>
+                    <span>{item.reports?.report_key ?? item.report_id}</span>
+                    <span className="row-subtext">{item.reports?.platforms?.display_name ?? "Unknown platform"}</span>
+                  </td>
                   <td>{item.priority}</td>
-                  <td className="code">{item.reports?.report_key ?? item.report_id}</td>
-                  <td className="wrap">{item.reason}</td>
+                  <td className="review-reason-cell">{item.reason}</td>
+                  <td>
+                    <span className={`status ${item.status}`}>{item.status}</span>
+                  </td>
                   <td>{formatDate(item.created_at)}</td>
                   <td>
-                    <div style={{ display: "flex", gap: 8 }}>
+                    <div className="table-actions">
+                      <a className="icon-button" href={`/review/${item.id}`} title="Preview review details">
+                        <Eye size={15} aria-hidden="true" />
+                        <span>Preview</span>
+                      </a>
                       <form action={`/api/review/${item.id}/approve`} method="post">
-                        <button className="button secondary" type="submit" title="Approve review item">
+                        <button className="icon-button" type="submit" title="Approve review item">
                           <CheckCircle size={15} aria-hidden="true" />
-                          Approve
+                          <span>Approve</span>
                         </button>
                       </form>
                       <form action={`/api/review/${item.id}/reject`} method="post">
-                        <button className="button secondary" type="submit" title="Reject review item">
+                        <button className="icon-button danger" type="submit" title="Decline review item">
                           <XCircle size={15} aria-hidden="true" />
-                          Reject
+                          <span>Decline</span>
                         </button>
                       </form>
                     </div>
@@ -62,4 +81,3 @@ export default async function ReviewPage() {
     </>
   );
 }
-

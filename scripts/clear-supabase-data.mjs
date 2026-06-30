@@ -21,6 +21,7 @@ const supabase = createClient(url, key, {
 
 const tables = [
   "exports",
+  "record_comments",
   "review_items",
   "validation_results",
   "field_provenance",
@@ -43,7 +44,7 @@ for (const table of tables) {
   console.log(`${table}: deleted ${deleted}`);
 }
 
-for (const table of ["review_items", "validation_results", "field_provenance", "report_records", "reconciliation_snapshots", "processing_runs"]) {
+for (const table of ["record_comments", "review_items", "validation_results", "field_provenance", "report_records", "reconciliation_snapshots", "processing_runs"]) {
   const deleted = await clearTable(table);
   if (deleted > 0) {
     console.log(`${table}: deleted ${deleted} on final pass`);
@@ -64,6 +65,9 @@ async function clearTable(table) {
       .limit(DELETE_BATCH_SIZE);
 
     if (selected.error) {
+      if (selected.error.code === "42P01" || /does not exist|schema cache/i.test(selected.error.message ?? "")) {
+        return deletedTotal;
+      }
       throw new Error(`Failed to select ${table}: ${selected.error.message}`);
     }
 
@@ -74,6 +78,9 @@ async function clearTable(table) {
 
     const deleted = await supabase.from(table).delete({ count: "exact" }).in(keyColumn, keys);
     if (deleted.error) {
+      if (deleted.error.code === "42P01" || /does not exist|schema cache/i.test(deleted.error.message ?? "")) {
+        return deletedTotal;
+      }
       throw new Error(`Failed to clear ${table}: ${deleted.error.message}`);
     }
     deletedTotal += deleted.count ?? keys.length;

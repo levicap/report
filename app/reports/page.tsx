@@ -1,9 +1,9 @@
-import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { ChevronLeft, ChevronRight, Eye, Search } from "lucide-react";
 import { getReconciliationPage } from "@/lib/dashboard";
 import { formatAmount } from "@/lib/format";
 
 type ReportsPageProps = {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string; q?: string }>;
 };
 
 const PAGE_SIZE = 5;
@@ -11,7 +11,8 @@ const PAGE_SIZE = 5;
 export default async function ReportsPage({ searchParams }: ReportsPageProps) {
   const params = await searchParams;
   const currentPage = parsePage(params.page);
-  const data = await getReconciliationPage(currentPage, PAGE_SIZE);
+  const query = normalizeQuery(params.q);
+  const data = await getReconciliationPage(currentPage, PAGE_SIZE, query);
   const firstRow = data.totalRows === 0 ? 0 : (data.page - 1) * data.pageSize + 1;
   const lastRow = Math.min(data.page * data.pageSize, data.totalRows);
 
@@ -32,13 +33,22 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
               Showing {firstRow}-{lastRow} of {data.totalRows}
             </p>
           </div>
-          <Pagination page={data.page} totalPages={data.totalPages} />
+          <div className="report-toolbar">
+            <form className="search-form" action="/reports">
+              <Search size={15} aria-hidden="true" />
+              <input name="q" defaultValue={query} placeholder="Search reports" aria-label="Search reports" />
+              <button className="button secondary" type="submit">
+                Search
+              </button>
+            </form>
+            <Pagination page={data.page} totalPages={data.totalPages} query={query} />
+          </div>
         </div>
         <div className="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Report</th>
+                <th>File</th>
                 <th>Platform</th>
                 <th>Status</th>
                 <th>Source Total</th>
@@ -51,7 +61,10 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
             <tbody>
               {data.rows.map((row) => (
                 <tr key={row.report_id}>
-                  <td className="code">{row.report_key}</td>
+                  <td>
+                    <strong className="file-title">{row.source_file_name ?? row.report_key}</strong>
+                    <span className="row-subtext code">{row.report_key}</span>
+                  </td>
                   <td>{row.platform ?? "Unknown"}</td>
                   <td>
                     <span className={`status ${row.status}`}>{row.status}</span>
@@ -70,27 +83,27 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
               ))}
             </tbody>
           </table>
-          {data.rows.length === 0 ? <div className="empty">No processed reports.</div> : null}
+          {data.rows.length === 0 ? <div className="empty">{query ? "No reports matched the search." : "No processed reports."}</div> : null}
         </div>
       </section>
     </>
   );
 }
 
-function Pagination({ page, totalPages }: { page: number; totalPages: number }) {
+function Pagination({ page, totalPages, query }: { page: number; totalPages: number; query: string }) {
   const hasPrevious = page > 1;
   const hasNext = page < totalPages;
 
   return (
     <nav className="pagination" aria-label="Report pages">
-      <a className={`button secondary ${hasPrevious ? "" : "disabled"}`} href={hasPrevious ? `/reports?page=${page - 1}` : "#"} aria-disabled={!hasPrevious}>
+      <a className={`button secondary ${hasPrevious ? "" : "disabled"}`} href={hasPrevious ? reportsPageHref(page - 1, query) : "#"} aria-disabled={!hasPrevious}>
         <ChevronLeft size={15} aria-hidden="true" />
         Previous
       </a>
       <span>
         Page {page} of {totalPages}
       </span>
-      <a className={`button secondary ${hasNext ? "" : "disabled"}`} href={hasNext ? `/reports?page=${page + 1}` : "#"} aria-disabled={!hasNext}>
+      <a className={`button secondary ${hasNext ? "" : "disabled"}`} href={hasNext ? reportsPageHref(page + 1, query) : "#"} aria-disabled={!hasNext}>
         Next
         <ChevronRight size={15} aria-hidden="true" />
       </a>
@@ -101,4 +114,16 @@ function Pagination({ page, totalPages }: { page: number; totalPages: number }) 
 function parsePage(value: string | undefined): number {
   const parsed = Number(value);
   return Number.isInteger(parsed) && parsed > 0 ? parsed : 1;
+}
+
+function normalizeQuery(value: string | undefined): string {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function reportsPageHref(page: number, query: string): string {
+  const params = new URLSearchParams({ page: String(page) });
+  if (query) {
+    params.set("q", query);
+  }
+  return `/reports?${params.toString()}`;
 }

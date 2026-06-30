@@ -1,0 +1,1486 @@
+﻿{
+  "7a6a34e7075efefa6c93f0a1f74f8d65d8ef10048963aa6d4e882432fa9e7a72": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\May 2021 - Enter with July 2021\\Erigo Payment Sheet MAY 2021.xlsx",
+    "sourcePeriod": {
+      "start": "2021-05-01",
+      "end": "2021-05-31",
+      "label": "May 2021"
+    },
+    "paidOutLabel": "July 2021",
+    "invoiceDate": "2021-07-31",
+    "dueDate": "2021-09-30",
+    "metartAmount": "876.41",
+    "teamSkeetAmount": "353.01",
+    "netPayable": "1229.42",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "876.41"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "353.01"
+      }
+    ]
+  },
+  "2782efa32e859507317ee03adb78e3013b6fc00b4d38ca741b71c608a9176416": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\April 2021 - Enter with June 2021\\ERIGO.pdf",
+    "sourcePeriod": {
+      "start": "2021-04-01",
+      "end": "2021-04-30",
+      "label": "April 2021"
+    },
+    "paidOutLabel": "June 2021",
+    "invoiceDate": "2021-06-30",
+    "dueDate": "2021-08-31",
+    "metartAmount": "3352.04",
+    "netPayable": "3352.04",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "3352.04"
+      }
+    ]
+  },
+  "c6c8a54bc649f60c5ceef041ac8029e09c2f99cfc6785bc361bbe2e5bf913465": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\August 2020 - Enter with November 2020\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2020-08-01",
+      "end": "2020-08-31",
+      "label": "August 2020"
+    },
+    "paidOutLabel": "November 2020",
+    "invoiceDate": "2020-11-30",
+    "dueDate": "2021-01-31",
+    "metartAmount": "1193.91",
+    "teamSkeetAmount": "1164.65",
+    "netPayable": "2358.56",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1193.91"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "1164.65"
+      }
+    ]
+  },
+  "b9d6800c35b371f0d07ba70c2ba62ce2365af402041a245d63947ca870936202": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\December 2020 - Enter with April 2021\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2020-12-01",
+      "end": "2020-12-31",
+      "label": "December 2020"
+    },
+    "paidOutLabel": "April 2021",
+    "invoiceDate": "2021-04-30",
+    "dueDate": "2021-06-30",
+    "metartAmount": "1200.70",
+    "teamSkeetAmount": "809.18",
+    "netPayable": "2009.88",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1200.70"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "809.18"
+      }
+    ]
+  },
+  "c161a23bca3b5132264f2e4c825f5c692d949939f67df448d44e4d28b2f2da53": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\January 2021 - Enter with May 2021\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2021-01-01",
+      "end": "2021-01-31",
+      "label": "January 2021"
+    },
+    "paidOutLabel": "May 2021",
+    "invoiceDate": "2021-05-31",
+    "dueDate": "2021-07-31",
+    "metartAmount": "210.76",
+    "teamSkeetAmount": "639.77",
+    "netPayable": "850.53",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "210.76"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "639.77"
+      }
+    ]
+  },
+  "d13602e91c67cf30e697a2aa32eb0e125da6ce145a8280ec7ee054f1a2e2c291": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\June 2021 - Enter with August 2021\\NMG Mail - Payment.pdf",
+    "sourcePeriod": {
+      "start": "2021-06-01",
+      "end": "2021-06-30",
+      "label": "June 2021"
+    },
+    "paidOutLabel": "August 2021",
+    "invoiceDate": "2021-08-31",
+    "dueDate": "2021-10-31",
+    "metartAmount": "876.35",
+    "teamSkeetAmount": "352.99",
+    "netPayable": "1229.34",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "876.35"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "352.99"
+      }
+    ]
+  },
+  "02c09991adf1e68a1a5ce38e06a57c66581c61134d0467d55b6ddbc27b19d444": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\November 2020 - Enter with March 2021\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2020-11-01",
+      "end": "2020-11-30",
+      "label": "November 2020"
+    },
+    "paidOutLabel": "March 2021",
+    "invoiceDate": "2021-03-31",
+    "dueDate": "2021-05-31",
+    "metartAmount": "318.26",
+    "teamSkeetAmount": "276.09",
+    "netPayable": "594.35",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "318.26"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "276.09"
+      }
+    ]
+  },
+  "858f71f27e5654f6ac3b90bee44cc96f9628c24c8b04b27739dc48bafd2add0b": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\October 2020 - Enter with January 2021\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2020-10-01",
+      "end": "2020-10-31",
+      "label": "October 2020"
+    },
+    "paidOutLabel": "January 2021",
+    "invoiceDate": "2021-01-31",
+    "dueDate": "2021-03-31",
+    "metartAmount": "1149.38",
+    "teamSkeetAmount": "629.77",
+    "netPayable": "1779.15",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1149.38"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "629.77"
+      }
+    ]
+  },
+  "32c280dee1121a4b74947f7c0a28cabf7c46bd5716e28e3ce8fa385eefce2fda": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\October 2021 - Enter with December 2021\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2021-10-01",
+      "end": "2021-10-31",
+      "label": "October 2021"
+    },
+    "paidOutLabel": "December 2021",
+    "invoiceDate": "2021-12-31",
+    "dueDate": "2022-02-28",
+    "metartAmount": "1049.95",
+    "teamSkeetAmount": "125.93",
+    "netPayable": "1175.88",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1049.95"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "125.93"
+      }
+    ]
+  },
+  "f20d135e35efaea3f79d4899ffa10f716e2ff5d799287720d5665aadb2a84f12": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\September 2020 - Enter with December 2020\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2020-09-01",
+      "end": "2020-09-30",
+      "label": "September 2020"
+    },
+    "paidOutLabel": "December 2020",
+    "invoiceDate": "2020-12-31",
+    "dueDate": "2021-02-28",
+    "metartAmount": "644.39",
+    "teamSkeetAmount": "834.72",
+    "netPayable": "1479.11",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "644.39"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "834.72"
+      }
+    ]
+  },
+  "4763cd3ddc015cdfaf4a7edeb9b9b1783027f5de5a344792edb275c61cc57a64": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\April 2020 - June 2020 Enter with September\\Erigo April 2020 Payable November 2020.pdf",
+    "sourcePeriod": {
+      "start": "2020-04-01",
+      "end": "2020-04-30",
+      "label": "April 2020"
+    },
+    "paidOutLabel": "November 2020",
+    "invoiceDate": "2020-04-28",
+    "dueDate": "2020-11-28",
+    "metartAmount": "2876.68",
+    "teamSkeetAmount": "1821.48",
+    "netPayable": "4698.16",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "2876.68"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "1821.48"
+      }
+    ]
+  },
+  "11074fe3ec36f37a55c704f637a7adb8068484931e125440524f3268b873950e": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\April 2022 - Enter with June 2022\\NMG Mail - Payment.pdf",
+    "sourcePeriod": {
+      "start": "2022-04-01",
+      "end": "2022-04-30",
+      "label": "April 2022"
+    },
+    "paidOutLabel": "June 2022",
+    "invoiceDate": "2022-06-30",
+    "dueDate": "2022-08-31",
+    "metartAmount": "561.14",
+    "teamSkeetAmount": "1.36",
+    "netPayable": "562.50",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "561.14"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "1.36"
+      }
+    ]
+  },
+  "e50f1793c146b5b3b565f7f69c99216a69996314edfa64f8f34eae5640169e95": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\April 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-02-01",
+      "end": "2023-02-28",
+      "label": "February 2023"
+    },
+    "paidOutLabel": "April 2023",
+    "invoiceDate": "2023-04-30",
+    "dueDate": "2023-06-30",
+    "metartAmount": "790.80",
+    "netPayable": "790.80",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "790.80"
+      }
+    ]
+  },
+  "4004200676eb940d5246a0c0c5e7ca4d4f7e52a3a301734fa34075da10943eef": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\April 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-02-01",
+      "end": "2024-02-29",
+      "label": "February 2024"
+    },
+    "paidOutLabel": "April 2024",
+    "invoiceDate": "2024-04-30",
+    "dueDate": "2024-06-30",
+    "metartAmount": "621.72",
+    "netPayable": "621.72",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "621.72"
+      }
+    ]
+  },
+  "03a091c72cdb5767e42c31a8da3ab8a6105f6b89c45af8a2de0dd5036c3cf413": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\April 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-02-01",
+      "end": "2025-02-28",
+      "label": "February 2025"
+    },
+    "paidOutLabel": "April 2025",
+    "invoiceDate": "2025-04-30",
+    "dueDate": "2025-06-30",
+    "metartAmount": "147.53",
+    "netPayable": "147.53",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "147.53"
+      }
+    ]
+  },
+  "34844dbd0e142f0027f15eed25602140bc7a63b09d701644e808dafe10dc4abc": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\August 2021 - Enter with October 2021\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2021-08-01",
+      "end": "2021-08-31",
+      "label": "August 2021"
+    },
+    "paidOutLabel": "October 2021",
+    "invoiceDate": "2021-10-28",
+    "dueDate": "2021-12-28",
+    "metartAmount": "2830.70",
+    "teamSkeetAmount": "284.39",
+    "netPayable": "3115.09",
+    "lines": [
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "284.39"
+      },
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC:Viv Thomas",
+        "amount": "2830.70"
+      }
+    ]
+  },
+  "c9afefa7eed6d341fb9dcd02606208fa9dcc25af2fc3cdfb9947618f084cc557": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\August 2022 - Enter with October 2022\\NMG Mail - Payment received.pdf",
+    "sourcePeriod": {
+      "start": "2022-08-01",
+      "end": "2022-08-31",
+      "label": "August 2022"
+    },
+    "paidOutLabel": "October 2022",
+    "invoiceDate": "2022-10-31",
+    "dueDate": "2022-12-31",
+    "metartAmount": "1515.60",
+    "netPayable": "1515.60",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1515.60"
+      }
+    ]
+  },
+  "d72863c66209f7dbdc9dd75ea693f0cfbf285a9a77c6a568a983d824bbb79d98": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\August 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-06-01",
+      "end": "2023-06-30",
+      "label": "June 2023"
+    },
+    "paidOutLabel": "August 2023",
+    "invoiceDate": "2023-08-31",
+    "dueDate": "2023-10-31",
+    "metartAmount": "405.75",
+    "netPayable": "405.75",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "405.75"
+      }
+    ]
+  },
+  "e64d2fb9366f30653a638a6a34fc510de45183d507fb500d0d795df81cb6e06c": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\August 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-06-01",
+      "end": "2024-06-30",
+      "label": "June 2024"
+    },
+    "paidOutLabel": "August 2024",
+    "invoiceDate": "2024-08-31",
+    "dueDate": "2024-10-31",
+    "metartAmount": "455.07",
+    "netPayable": "455.07",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "455.07"
+      }
+    ]
+  },
+  "bb4a2e733da1d588d326c5082342760f003d975ab2100e7c7af997062280b324": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\August 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-06-01",
+      "end": "2025-06-30",
+      "label": "June 2025"
+    },
+    "paidOutLabel": "August 2025",
+    "invoiceDate": "2025-08-31",
+    "dueDate": "2025-10-31",
+    "metartAmount": "210.18",
+    "netPayable": "210.18",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "210.18"
+      }
+    ]
+  },
+  "98797e002b85d167b09702270cac93c962ef998313cc1e2a1353c3fe6dc4e254": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\December 2021 - Enter with February 2022\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2021-12-01",
+      "end": "2021-12-31",
+      "label": "December 2021"
+    },
+    "paidOutLabel": "February 2022",
+    "invoiceDate": "2022-02-28",
+    "dueDate": "2022-04-30",
+    "metartAmount": "1084.40",
+    "teamSkeetAmount": "170.80",
+    "netPayable": "1255.20",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1084.40"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "170.80"
+      }
+    ]
+  },
+  "40f0dbd4b03bb2fb12c8d1336f8892db259d561338497c06db61c85c5c90dbbb": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\December 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-10-01",
+      "end": "2023-10-31",
+      "label": "October 2023"
+    },
+    "paidOutLabel": "December 2023",
+    "invoiceDate": "2023-12-31",
+    "dueDate": "2024-02-29",
+    "metartAmount": "372.18",
+    "netPayable": "372.18",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "372.18"
+      }
+    ]
+  },
+  "2f37e5114da03e55dd31b95ed45bf6d52a0705cab4f27607e8af3c9e45434eea": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\December 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-10-01",
+      "end": "2024-10-31",
+      "label": "October 2024"
+    },
+    "paidOutLabel": "December 2024",
+    "invoiceDate": "2024-12-31",
+    "dueDate": "2025-02-28",
+    "metartAmount": "212.39",
+    "netPayable": "212.39",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "212.39"
+      }
+    ]
+  },
+  "25152ffd958560be672bb56fffd443654bce045815035fb1bbf636b6396ea258": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\December 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-10-01",
+      "end": "2025-10-31",
+      "label": "October 2025"
+    },
+    "paidOutLabel": "December 2025",
+    "invoiceDate": "2025-12-31",
+    "dueDate": "2026-02-28",
+    "metartAmount": "385.18",
+    "netPayable": "385.18",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "385.18"
+      }
+    ]
+  },
+  "5a62cea19341aa6f248d8ed05d9d7eabb7ed6b62ea1f554f190f1de4cb38ba66": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\February 2020 - Enter with July\\Erigo February 2020 Payable Sept 2020.pdf",
+    "sourcePeriod": {
+      "start": "2020-02-01",
+      "end": "2020-02-29",
+      "label": "February 2020"
+    },
+    "paidOutLabel": "September 2020",
+    "invoiceDate": "2020-02-28",
+    "dueDate": "2020-09-28",
+    "metartAmount": "4387.04",
+    "teamSkeetAmount": "2226.57",
+    "netPayable": "6613.61",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "4387.04"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "2226.57"
+      }
+    ]
+  },
+  "f7a4ad55c2f2d84d746f2175c11a4f346a818f7a5b231ec375ff22bc05c39ed2": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\February 2022 - Enter with April 2022\\NMG Mail - Payment.pdf",
+    "sourcePeriod": {
+      "start": "2022-02-01",
+      "end": "2022-02-28",
+      "label": "February 2022"
+    },
+    "paidOutLabel": "April 2022",
+    "invoiceDate": "2022-04-30",
+    "dueDate": "2022-06-30",
+    "metartAmount": "605.45",
+    "teamSkeetAmount": "45.87",
+    "netPayable": "651.32",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "605.45"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "45.87"
+      }
+    ]
+  },
+  "61162cb0a6ae2b32e52bf60624a45723e864d95849f709d2f06af9b10ac19622": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\February 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2022-12-01",
+      "end": "2022-12-31",
+      "label": "December 2022"
+    },
+    "paidOutLabel": "February 2023",
+    "invoiceDate": "2023-02-28",
+    "dueDate": "2023-04-30",
+    "metartAmount": "958.17",
+    "netPayable": "958.17",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "958.17"
+      }
+    ]
+  },
+  "0b3e86841b0b180f1e89c3ab61e15f3358bace3d1f63106b5fe555f6222434cb": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\February 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-12-01",
+      "end": "2023-12-31",
+      "label": "December 2023"
+    },
+    "paidOutLabel": "February 2024",
+    "invoiceDate": "2024-02-29",
+    "dueDate": "2024-04-30",
+    "metartAmount": "493.96",
+    "netPayable": "493.96",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "493.96"
+      }
+    ]
+  },
+  "beabaa56bc10eaeb062b3dd367057ccfd50908b2219451a1003e087f3b0b3a4f": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\February 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-12-01",
+      "end": "2024-12-31",
+      "label": "December 2024"
+    },
+    "paidOutLabel": "February 2025",
+    "invoiceDate": "2025-02-28",
+    "dueDate": "2025-04-30",
+    "metartAmount": "245.95",
+    "netPayable": "245.95",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "245.95"
+      }
+    ]
+  },
+  "b1cd27b09aba6eb117ecfed971a5aab35c1a6f468c23c24162d7fe205c678c0a": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\February 2026\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-12-01",
+      "end": "2025-12-31",
+      "label": "December 2025"
+    },
+    "paidOutLabel": "February 2026",
+    "invoiceDate": "2026-02-28",
+    "dueDate": "2026-04-30",
+    "metartAmount": "412.09",
+    "netPayable": "412.09",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "412.09"
+      }
+    ]
+  },
+  "eb3974b21915402255416582c9410a3ee17c1bb807153efa0e23ffdc3ece9316": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\January 2022 - Enter with March 2022\\Erigo Payment.pdf",
+    "sourcePeriod": {
+      "start": "2022-01-01",
+      "end": "2022-01-31",
+      "label": "January 2022"
+    },
+    "paidOutLabel": "March 2022",
+    "invoiceDate": "2022-03-31",
+    "dueDate": "2022-05-31",
+    "metartAmount": "1322.28",
+    "teamSkeetAmount": "112.51",
+    "netPayable": "1434.79",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1322.28"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "112.51"
+      }
+    ]
+  },
+  "57591bbed2401b00d315383cc01e7f704b1f887f1e14b64430731e8c29c4a975": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\January 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-11-01",
+      "end": "2023-11-30",
+      "label": "November 2023"
+    },
+    "paidOutLabel": "January 2024",
+    "invoiceDate": "2024-01-31",
+    "dueDate": "2024-03-31",
+    "metartAmount": "464.58",
+    "netPayable": "464.58",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "464.58"
+      }
+    ]
+  },
+  "537b095d2ceda879a648cd077342c028079e0fb2b7bd30cc77955f0989163c04": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\January 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-11-01",
+      "end": "2024-11-30",
+      "label": "November 2024"
+    },
+    "paidOutLabel": "January 2025",
+    "invoiceDate": "2025-01-31",
+    "dueDate": "2025-03-31",
+    "metartAmount": "86.09",
+    "netPayable": "86.09",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "86.09"
+      }
+    ]
+  },
+  "34b41e7b9cb257d2cbd51698e515b817093ab06b45e3baf6326af2345b7a95a2": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\January 2026\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-11-01",
+      "end": "2025-11-30",
+      "label": "November 2025"
+    },
+    "paidOutLabel": "January 2026",
+    "invoiceDate": "2026-01-31",
+    "dueDate": "2026-03-31",
+    "metartAmount": "61.71",
+    "netPayable": "61.71",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "61.71"
+      }
+    ]
+  },
+  "6cb744cc5c31ec778bd6b9bebd02fb3ee6c15d26f4d724c848348756189aa5ed": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\July 2021 - Enter with September 2021\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2021-07-01",
+      "end": "2021-07-31",
+      "label": "July 2021"
+    },
+    "paidOutLabel": "September 2021",
+    "invoiceDate": "2021-09-28",
+    "dueDate": "2021-11-28",
+    "metartAmount": "1074.44",
+    "teamSkeetAmount": "130.90",
+    "netPayable": "1205.34",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1074.44"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "130.90"
+      }
+    ]
+  },
+  "dc8db817c4de4cf2623087e957bb5f0d6eba5baa36394163cd34d2ef2c0f1639": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\July 2022 - Enter with September 2022\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2022-07-01",
+      "end": "2022-07-31",
+      "label": "July 2022"
+    },
+    "paidOutLabel": "September 2022",
+    "invoiceDate": "2022-09-30",
+    "dueDate": "2022-11-30",
+    "metartAmount": "83.12",
+    "teamSkeetAmount": "14.24",
+    "netPayable": "97.36",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "83.12"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "14.24"
+      }
+    ]
+  },
+  "8bf498e71683a030dab865d562ac7e25990ae0a7f864821522bfc9430fc88375": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\July 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-05-01",
+      "end": "2023-05-31",
+      "label": "May 2023"
+    },
+    "paidOutLabel": "July 2023",
+    "invoiceDate": "2023-07-31",
+    "dueDate": "2023-09-30",
+    "metartAmount": "683.49",
+    "netPayable": "683.49",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "683.49"
+      }
+    ]
+  },
+  "5da3bd13ed23f8b526a6e22b5ab90fc13abf222a4c14835f4fbb10d5486cedc1": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\July 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-05-01",
+      "end": "2024-05-31",
+      "label": "May 2024"
+    },
+    "paidOutLabel": "July 2024",
+    "invoiceDate": "2024-07-31",
+    "dueDate": "2024-09-30",
+    "metartAmount": "86.20",
+    "netPayable": "86.20",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "86.20"
+      }
+    ]
+  },
+  "9965f7c1d380962745fb7c6b6a922c042c093f399b6871312dfc96d1ae37c567": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\July 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-05-01",
+      "end": "2025-05-31",
+      "label": "May 2025"
+    },
+    "paidOutLabel": "July 2025",
+    "invoiceDate": "2025-07-31",
+    "dueDate": "2025-09-30",
+    "metartAmount": "707.61",
+    "netPayable": "707.61",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "707.61"
+      }
+    ]
+  },
+  "1d9a88cc700a7e5f82b0b55b328077e60b46da7a3d2cf11987b67b1ebd63caad": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\June 2022 - Enter with August 2022\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2022-06-01",
+      "end": "2022-06-30",
+      "label": "June 2022"
+    },
+    "paidOutLabel": "August 2022",
+    "invoiceDate": "2022-08-31",
+    "dueDate": "2022-10-31",
+    "metartAmount": "1212.54",
+    "netPayable": "1212.54",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1212.54"
+      }
+    ]
+  },
+  "1a8d01935d90cc28b6c9d2db672e21f42f7a3e17de76425293d5cbcc0738e0d1": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\June 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-04-01",
+      "end": "2023-04-30",
+      "label": "April 2023"
+    },
+    "paidOutLabel": "June 2023",
+    "invoiceDate": "2023-06-30",
+    "dueDate": "2023-08-31",
+    "metartAmount": "251.69",
+    "teamSkeetAmount": "19.65",
+    "netPayable": "271.34",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "251.69"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "19.65"
+      }
+    ]
+  },
+  "5be255b3a4844273c4dc8fad2f963936968619139429f9270ace2bededaf4a3e": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\June 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-04-01",
+      "end": "2024-04-30",
+      "label": "April 2024"
+    },
+    "paidOutLabel": "June 2024",
+    "invoiceDate": "2024-06-30",
+    "dueDate": "2024-08-31",
+    "metartAmount": "393.24",
+    "netPayable": "393.24",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "393.24"
+      }
+    ]
+  },
+  "9d6c038f590de688a1c1164498e241417cbeb72b033cf836418b74aaf76165bc": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\June 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-04-01",
+      "end": "2025-04-30",
+      "label": "April 2025"
+    },
+    "paidOutLabel": "June 2025",
+    "invoiceDate": "2025-06-30",
+    "dueDate": "2025-08-31",
+    "metartAmount": "460.24",
+    "netPayable": "460.24",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "460.24"
+      }
+    ]
+  },
+  "bdd42c67d223747474bc0857b5a91c2e057472adcf70f6485f8c8b12ca8c254f": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\March 2020 - Enter with August\\Erigo March 2020 Payable October 2020.pdf",
+    "sourcePeriod": {
+      "start": "2020-03-01",
+      "end": "2020-03-31",
+      "label": "March 2020"
+    },
+    "paidOutLabel": "October 2020",
+    "invoiceDate": "2020-03-28",
+    "dueDate": "2020-10-28",
+    "metartAmount": "2892.88",
+    "teamSkeetAmount": "3137.15",
+    "netPayable": "6030.03",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "2892.88"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "3137.15"
+      }
+    ]
+  },
+  "3687a1eca795fe1b12f58eb7f71d4a5d983fc743d84e553a775865b9765b83c2": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\March 2022 - Enter with May 2022\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2022-03-01",
+      "end": "2022-03-31",
+      "label": "March 2022"
+    },
+    "paidOutLabel": "May 2022",
+    "invoiceDate": "2022-05-31",
+    "dueDate": "2022-07-31",
+    "metartAmount": "879.69",
+    "teamSkeetAmount": "20.85",
+    "netPayable": "900.54",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "879.69"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "20.85"
+      }
+    ]
+  },
+  "05f233543fdb4983ff8deaa5f4249b764f6df53b9bb3d08dd6ee786d94fa051b": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\March 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-01-01",
+      "end": "2023-01-31",
+      "label": "January 2023"
+    },
+    "paidOutLabel": "March 2023",
+    "invoiceDate": "2023-03-31",
+    "dueDate": "2023-05-31",
+    "metartAmount": "221.94",
+    "netPayable": "221.94",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "221.94"
+      }
+    ]
+  },
+  "7b3c99903b9a22320721d6ea332ac5ae12931ad50d5651ff7f9f680140af998b": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\March 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-01-01",
+      "end": "2024-01-31",
+      "label": "January 2024"
+    },
+    "paidOutLabel": "March 2024",
+    "invoiceDate": "2024-03-31",
+    "dueDate": "2024-05-31",
+    "metartAmount": "138.87",
+    "netPayable": "138.87",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "138.87"
+      }
+    ]
+  },
+  "8c48695dae28d7a5d70512c9b144e9f66c2a3cf81c9dfe81482b0d215ecfdec3": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\March 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-01-01",
+      "end": "2025-01-31",
+      "label": "January 2025"
+    },
+    "paidOutLabel": "March 2025",
+    "invoiceDate": "2025-03-31",
+    "dueDate": "2025-05-31",
+    "metartAmount": "656.54",
+    "netPayable": "656.54",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "656.54"
+      }
+    ]
+  },
+  "0531bca9343d682b411f1109dc5cc1d8b47d12676e8613d5e50759e3e88edab4": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\March 2026\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2026-01-01",
+      "end": "2026-01-31",
+      "label": "January 2026"
+    },
+    "paidOutLabel": "March 2026",
+    "invoiceDate": "2026-03-31",
+    "dueDate": "2026-05-31",
+    "metartAmount": "360.85",
+    "netPayable": "360.85",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "360.85"
+      }
+    ]
+  },
+  "5749714ff26627b1d626f9f0ddd4afa78d02f87b260f49b573fafe30436f2064": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\May 2022 - Enter with July 2022\\NMG Mail - Erigo Distribution Limited has sent you money.pdf",
+    "sourcePeriod": {
+      "start": "2022-05-01",
+      "end": "2022-05-31",
+      "label": "May 2022"
+    },
+    "paidOutLabel": "July 2022",
+    "invoiceDate": "2022-07-31",
+    "dueDate": "2022-09-30",
+    "metartAmount": "1081.43",
+    "teamSkeetAmount": "11.89",
+    "netPayable": "1093.32",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1081.43"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC:Team Skeet",
+        "amount": "11.89"
+      }
+    ]
+  },
+  "2e457ff3674dda2fc52eb9fc62b0e83f9be13e61c3b490ec6745241288035867": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\May 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-03-01",
+      "end": "2023-03-31",
+      "label": "March 2023"
+    },
+    "paidOutLabel": "May 2023",
+    "invoiceDate": "2023-05-31",
+    "dueDate": "2023-07-31",
+    "metartAmount": "789.59",
+    "netPayable": "789.59",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "789.59"
+      }
+    ]
+  },
+  "b57564d996f769c8005aa2cfd2065c18a7ab9574925cc97858dab42abbfb64e9": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\May 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-03-01",
+      "end": "2024-03-31",
+      "label": "March 2024"
+    },
+    "paidOutLabel": "May 2024",
+    "invoiceDate": "2024-05-31",
+    "dueDate": "2024-07-31",
+    "metartAmount": "633.99",
+    "netPayable": "633.99",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "633.99"
+      }
+    ]
+  },
+  "f55426a617edf2423d8df046da2adeda1a33456c87075eb2875d3baf23cf7b7b": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\May 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-03-01",
+      "end": "2025-03-31",
+      "label": "March 2025"
+    },
+    "paidOutLabel": "May 2025",
+    "invoiceDate": "2025-05-31",
+    "dueDate": "2025-07-31",
+    "metartAmount": "84.08",
+    "netPayable": "84.08",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "84.08"
+      }
+    ]
+  },
+  "337d4ce4a455451cb85fdc6d6b5f9bea1afac16af4fcea3cae0b1a9cd6d7498b": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\November 2021 - Enter with January 2022\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2021-11-01",
+      "end": "2021-11-30",
+      "label": "November 2021"
+    },
+    "paidOutLabel": "January 2022",
+    "invoiceDate": "2022-01-31",
+    "dueDate": "2022-03-31",
+    "metartAmount": "1584.69",
+    "teamSkeetAmount": "203.82",
+    "netPayable": "1788.51",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1584.69"
+      },
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "203.82"
+      }
+    ]
+  },
+  "b38843adc45ab960702e03bf5f946bd028b424104950b3e168822b2f057ad617": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\November 2022 - Enter with January 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2022-11-01",
+      "end": "2022-11-30",
+      "label": "November 2022"
+    },
+    "paidOutLabel": "January 2023",
+    "invoiceDate": "2023-01-31",
+    "dueDate": "2023-03-31",
+    "metartAmount": "1493.54",
+    "netPayable": "1493.54",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1493.54"
+      }
+    ]
+  },
+  "d15ccf873e6173ad27359a2bce8f1b72f750984b79d27b8f9e58a08fba8868af": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\November 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-09-01",
+      "end": "2023-09-30",
+      "label": "September 2023"
+    },
+    "paidOutLabel": "November 2023",
+    "invoiceDate": "2023-11-30",
+    "dueDate": "2024-01-31",
+    "metartAmount": "334.19",
+    "netPayable": "334.19",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "334.19"
+      }
+    ]
+  },
+  "31562f2e1e2fc056263f9188962d5ea7f29ab985386da3291026d70b1a6b99be": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\November 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-09-01",
+      "end": "2024-09-30",
+      "label": "September 2024"
+    },
+    "paidOutLabel": "November 2024",
+    "invoiceDate": "2024-11-30",
+    "dueDate": "2025-01-31",
+    "metartAmount": "408.94",
+    "netPayable": "408.94",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "408.94"
+      }
+    ]
+  },
+  "b30d72ef2cfd6cf4abb92ceaf3beb57391b00f245a6c803822336a4a46113ffc": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\November 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-09-01",
+      "end": "2025-09-30",
+      "label": "September 2025"
+    },
+    "paidOutLabel": "November 2025",
+    "invoiceDate": "2025-11-30",
+    "dueDate": "2026-01-31",
+    "metartAmount": "382.33",
+    "netPayable": "382.33",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "382.33"
+      }
+    ]
+  },
+  "094a4885ba8d7fb37873d3bad51aa37276f840f78c3345000bce4378a85b9888": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\October 2022 - Enter with December 2022\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2022-10-01",
+      "end": "2022-10-31",
+      "label": "October 2022"
+    },
+    "paidOutLabel": "December 2022",
+    "invoiceDate": "2022-12-31",
+    "dueDate": "2023-02-28",
+    "metartAmount": "695.90",
+    "netPayable": "695.90",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "695.90"
+      }
+    ]
+  },
+  "1068fd906e2deaaed018dffcb0fa0614d3f9c615acbc4f8f0da307d4a4da1f88": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\October 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-08-01",
+      "end": "2023-08-31",
+      "label": "August 2023"
+    },
+    "paidOutLabel": "October 2023",
+    "invoiceDate": "2023-10-31",
+    "dueDate": "2023-12-31",
+    "metartAmount": "755.17",
+    "netPayable": "755.17",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "755.17"
+      }
+    ]
+  },
+  "3bfb125fa2ebc5800956536200913ab356d9df35730a396b11cc72a786c9d670": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\October 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-08-01",
+      "end": "2024-08-31",
+      "label": "August 2024"
+    },
+    "paidOutLabel": "October 2024",
+    "invoiceDate": "2024-10-31",
+    "dueDate": "2024-12-31",
+    "metartAmount": "240.57",
+    "netPayable": "240.57",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "240.57"
+      }
+    ]
+  },
+  "d36b5319fc633b4a171ec749a8be174d0f2e0ad522968dfaa166a5cde500e4d1": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\October 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-08-01",
+      "end": "2025-08-31",
+      "label": "August 2025"
+    },
+    "paidOutLabel": "October 2025",
+    "invoiceDate": "2025-10-31",
+    "dueDate": "2025-12-31",
+    "metartAmount": "531.66",
+    "netPayable": "531.66",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "531.66"
+      }
+    ]
+  },
+  "3df41ae03c8ae0caa9c2ba549d6ea46c3d7fcb617217b428f0d23d9976ba8106": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\September 2021 - Enter with November 2021\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2021-09-01",
+      "end": "2021-09-30",
+      "label": "September 2021"
+    },
+    "paidOutLabel": "November 2021",
+    "invoiceDate": "2021-11-28",
+    "dueDate": "2022-01-28",
+    "metartAmount": "1510.98",
+    "teamSkeetAmount": "129.72",
+    "netPayable": "1640.70",
+    "lines": [
+      {
+        "sourceStudio": "Team Skeet",
+        "postingStudio": "Paper Street Media LLC",
+        "amount": "129.72"
+      },
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC:Viv Thomas",
+        "amount": "1510.98"
+      }
+    ]
+  },
+  "6dde89598fd4bd1f82b5373ca859c224da0df9281e90ecc406d96672701e609d": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\September 2022 - Enter with November 2022\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2022-09-01",
+      "end": "2022-09-30",
+      "label": "September 2022"
+    },
+    "paidOutLabel": "November 2022",
+    "invoiceDate": "2022-11-30",
+    "dueDate": "2023-01-31",
+    "metartAmount": "813.38",
+    "netPayable": "813.38",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "813.38"
+      }
+    ]
+  },
+  "afa71dd2295612e8a081ea2eeed77c9ac663133f37f4f3bada6aabae33067928": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\September 2023\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2023-07-01",
+      "end": "2023-07-31",
+      "label": "July 2023"
+    },
+    "paidOutLabel": "September 2023",
+    "invoiceDate": "2023-09-30",
+    "dueDate": "2023-11-30",
+    "metartAmount": "1061.18",
+    "netPayable": "1061.18",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "1061.18"
+      }
+    ]
+  },
+  "7c75ad54319475645e772371a2e722021bd863086b308ed92407e040d0191c42": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\September 2024\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2024-07-01",
+      "end": "2024-07-31",
+      "label": "July 2024"
+    },
+    "paidOutLabel": "September 2024",
+    "invoiceDate": "2024-09-30",
+    "dueDate": "2024-11-30",
+    "metartAmount": "643.34",
+    "netPayable": "643.34",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "643.34"
+      }
+    ]
+  },
+  "b1fffc95490f6fcdca793bf3527bd52b2e6fdace46639f59f05fe45ec33547a3": {
+    "source_file": "reportss samples\\Erigo-Load - DVD - Emailed\\Entered\\September 2025\\Erigo.pdf",
+    "sourcePeriod": {
+      "start": "2025-07-01",
+      "end": "2025-07-31",
+      "label": "July 2025"
+    },
+    "paidOutLabel": "September 2025",
+    "invoiceDate": "2025-09-30",
+    "dueDate": "2025-11-30",
+    "metartAmount": "55.54",
+    "netPayable": "55.54",
+    "lines": [
+      {
+        "sourceStudio": "Metart",
+        "postingStudio": "SARJ LLC",
+        "amount": "55.54"
+      }
+    ]
+  }
+}

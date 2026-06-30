@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ArrowLeft, CheckCircle2, Download, FileJson2, Send, ShieldAlert, Table2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Download, FileJson2, MessageSquare, Save, Send, ShieldAlert, Table2 } from "lucide-react";
 import { AIRTABLE_COLUMNS, buildAirtableRows, numberOrNull } from "@/lib/airtableExport";
 import { formatAmount } from "@/lib/format";
 import { requireSupabaseAdmin } from "@/lib/supabaseAdmin";
@@ -34,14 +34,24 @@ type ExportRecord = {
   invoice_date: string | null;
   due_date: string | null;
   vertical: string | null;
+  entered_at: string | null;
+  exported_at: string | null;
   invoice_number: string | null;
+};
+
+type RecordComment = {
+  id: string;
+  report_record_id: string;
+  comment_text: string;
+  created_by: string | null;
+  created_at: string;
 };
 
 export default async function ExportPreviewPage({ params }: PageProps) {
   const { reportId } = await params;
   const supabase = requireSupabaseAdmin();
 
-  const [recordsResult, allPostingsResult, reconciliationResult, reportResult, failedValidationResult, openReviewResult] = await Promise.all([
+  const [recordsResult, allPostingsResult, reconciliationResult, reportResult, failedValidationResult, openReviewResult, commentsResult] = await Promise.all([
     supabase.from("airtable_export_ready").select("*").eq("report_id", reportId),
     supabase
       .from("report_records")
@@ -56,7 +66,12 @@ export default async function ExportPreviewPage({ params }: PageProps) {
       .from("review_items")
       .select("id, reason")
       .eq("report_id", reportId)
-      .in("status", ["open", "assigned", "corrected"])
+      .in("status", ["open", "assigned", "corrected"]),
+    supabase
+      .from("record_comments")
+      .select("id, report_record_id, comment_text, created_by, created_at")
+      .eq("report_id", reportId)
+      .order("created_at", { ascending: false })
   ]);
 
   if (recordsResult.error) {
@@ -77,6 +92,9 @@ export default async function ExportPreviewPage({ params }: PageProps) {
   if (openReviewResult.error) {
     throw openReviewResult.error;
   }
+  if (commentsResult.error && !isMissingTableError(commentsResult.error)) {
+    throw commentsResult.error;
+  }
 
   const report = reportResult.data;
   const reconciliation = reconciliationResult.data;
@@ -87,6 +105,7 @@ export default async function ExportPreviewPage({ params }: PageProps) {
   });
   const readyRecordIds = new Set((recordsResult.data ?? []).map((record) => String(record.report_record_id)));
   const exportRecords = ((allPostingsResult.data ?? []) as PostingRecord[]).map(toExportRecord);
+  const commentsByRecordId = groupComments((commentsResult.error ? [] : commentsResult.data ?? []) as RecordComment[]);
   const previewRows = buildAirtableRows(exportRecords, {
     invoiceDate: defaultInvoiceDate,
     dueDate: report?.due_date ?? null
@@ -95,6 +114,8 @@ export default async function ExportPreviewPage({ params }: PageProps) {
     return {
       ...row,
       recordStatus: record.status,
+      sourceCurrency: record.currency,
+      comments: commentsByRecordId.get(record.report_record_id) ?? [],
       gate: exportGate(record, {
         readyRecordIds,
         reportStatus: report?.status ?? null,
@@ -175,7 +196,7 @@ export default async function ExportPreviewPage({ params }: PageProps) {
         </div>
         <div className="preview-list">
           {previewRows.map((row) => (
-            <article className="preview-card" key={row.source.report_record_id}>
+            <article className="preview-card" id={`record-${row.source.report_record_id}`} key={row.source.report_record_id}>
               <div className="preview-card-header">
                 <div>
                   <span className="preview-label">Airtable Record</span>
@@ -187,18 +208,66 @@ export default async function ExportPreviewPage({ params }: PageProps) {
                   <span className="amount-chip">{formatAmount(row.csvFields.Amount)}</span>
                 </div>
               </div>
-              <div className={`preview-gate ${row.gate === "Ready to export" ? "ready" : "blocked"}`}>
-                {row.gate === "Ready to export" ? <CheckCircle2 size={15} aria-hidden="true" /> : <ShieldAlert size={15} aria-hidden="true" />}
-                <span>{row.gate}</span>
-              </div>
-              <dl className="preview-fields airtable-fields">
-                {AIRTABLE_COLUMNS.map((column) => (
-                  <div className="preview-field" key={column}>
-                    <dt>{column}</dt>
-                    <dd>{row.csvFields[column] ?? ""}</dd>
+              <form action={`/api/report-records/${row.source.report_record_id}/edit`} method="post" className="record-edit-form">
+                <div className={`preview-gate ${row.gate === "Ready to export" ? "ready" : "blocked"}`}>
+                  {row.gate === "Ready to export" ? <CheckCircle2 size={15} aria-hidden="true" /> : <ShieldAlert size={15} aria-hidden="true" />}
+                  <span>{row.gate}</span>
+                </div>
+                <div className="preview-fields airtable-fields editable-fields">
+                  {AIRTABLE_COLUMNS.map((column) => {
+                    const field = fieldForColumn(column);
+                    return (
+                      <label className="preview-field editable-field" key={column}>
+                        <span>{column}</span>
+                        <input
+                          name={field.name}
+                          defaultValue={String(row.csvFields[column] ?? "")}
+                          inputMode={field.inputMode}
+                          type={field.type}
+                        />
+                      </label>
+                    );
+                  })}
+                  <label className="preview-field editable-field">
+                    <span>Currency</span>
+                    <input name="currency" defaultValue={String(row.sourceCurrency ?? "")} maxLength={3} />
+                  </label>
+                  <label className="preview-field editable-field">
+                    <span>Status</span>
+                    <select name="record_status" defaultValue={row.recordStatus}>
+                      <option value="ready">ready</option>
+                      <option value="review">review</option>
+                      <option value="blocked">blocked</option>
+                      <option value="suppressed">suppressed</option>
+                    </select>
+                  </label>
+                </div>
+                <div className="record-comments">
+                  <div className="comments-header">
+                    <MessageSquare size={15} aria-hidden="true" />
+                    <strong>Comments</strong>
                   </div>
-                ))}
-              </dl>
+                  {row.comments.length > 0 ? (
+                    <div className="comment-list">
+                      {row.comments.map((comment) => (
+                        <p className="comment-item" key={comment.id}>
+                          <span>{comment.created_by || "dashboard"}</span>
+                          {comment.comment_text}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="comment-empty">No comments yet.</p>
+                  )}
+                  <textarea name="comment" rows={2} placeholder="Add record comment" />
+                </div>
+                <div className="record-edit-actions">
+                  <button className="button secondary" type="submit" title="Save Airtable record edits">
+                    <Save size={15} aria-hidden="true" />
+                    Save row
+                  </button>
+                </div>
+              </form>
               <div className="source-strip">
                 <FileJson2 size={14} aria-hidden="true" />
                 <span className="code">{row.source.record_key}</span>
@@ -240,6 +309,8 @@ function toExportRecord(record: PostingRecord): ExportRecord {
     invoice_date: stringOrNull(json.invoice_date),
     due_date: stringOrNull(json.due_date),
     vertical: stringOrNull(json.vertical),
+    entered_at: stringOrNull(json.entered_at),
+    exported_at: stringOrNull(json.exported_at),
     invoice_number: stringOrNull(json.invoice_number)
   };
 }
@@ -286,4 +357,45 @@ function stringOrNull(value: unknown): string | null {
     return null;
   }
   return String(value);
+}
+
+function fieldForColumn(column: string): { name: string; type: string; inputMode?: "decimal" } {
+  switch (column) {
+    case "Customer":
+      return { name: "customer", type: "text" };
+    case "Studio":
+      return { name: "studio", type: "text" };
+    case "Amount":
+      return { name: "amount", type: "text", inputMode: "decimal" };
+    case "Memo":
+      return { name: "memo", type: "text" };
+    case "Invoice Date":
+      return { name: "invoice_date", type: "date" };
+    case "Due Date":
+      return { name: "due_date", type: "date" };
+    case "Vertical":
+      return { name: "vertical", type: "text" };
+    case "Date Entered":
+      return { name: "entered_at", type: "date" };
+    case "Date Added to Airtable":
+      return { name: "exported_at", type: "date" };
+    case "Antoinette or Val Invoice#":
+      return { name: "invoice_number", type: "text" };
+    default:
+      return { name: column.toLowerCase().replace(/[^a-z0-9]+/g, "_"), type: "text" };
+  }
+}
+
+function groupComments(comments: RecordComment[]) {
+  const grouped = new Map<string, RecordComment[]>();
+  for (const comment of comments) {
+    const existing = grouped.get(comment.report_record_id) ?? [];
+    existing.push(comment);
+    grouped.set(comment.report_record_id, existing);
+  }
+  return grouped;
+}
+
+function isMissingTableError(error: { code?: string; message?: string }) {
+  return error.code === "42P01" || /record_comments/i.test(error.message ?? "");
 }
