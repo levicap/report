@@ -5,10 +5,41 @@ import { parseByFamily } from "./parsers";
 import { validateNormalizedReport } from "./schema";
 import type { ParserResult } from "./types";
 
+export type ParserClientOverride = {
+  clientKey: string;
+  displayName: string;
+  parserFamily: string;
+  currency?: string | null;
+};
+
 export function parseReportFromBuffer(bytes: Buffer, originalName: string): ParserResult {
   const refs = loadReferenceData();
   const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
   const classification = classifyFile(originalName, sha256, refs, bytes);
+  return parseWithClassification(bytes, originalName, sha256, classification);
+}
+
+export function parseReportFromBufferForClient(bytes: Buffer, originalName: string, client: ParserClientOverride): ParserResult {
+  const refs = loadReferenceData();
+  const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+  const detected = classifyFile(originalName, sha256, refs, bytes);
+  const classification = {
+    ...detected,
+    vendor_id: client.clientKey || detected.vendor_id,
+    vendor_name: client.displayName || detected.vendor_name,
+    parser_family: client.parserFamily || detected.parser_family,
+    profile_key: `${client.clientKey || detected.vendor_id || "client"}_analytics_v1`,
+    currency: client.currency || detected.currency,
+    status: "client_selected",
+    confidence: detected.confidence === "0.0" ? "0.80" : detected.confidence,
+    reason: `Client-selected parser ${client.parserFamily}. Auto-detection said: ${detected.reason}`
+  };
+
+  return parseWithClassification(bytes, originalName, sha256, classification);
+}
+
+function parseWithClassification(bytes: Buffer, originalName: string, sha256: string, classification: ReturnType<typeof classifyFile>): ParserResult {
+  const refs = loadReferenceData();
   let result = parseByFamily(bytes, originalName, sha256, classification, refs);
   result = ensurePostingRecords(result);
 

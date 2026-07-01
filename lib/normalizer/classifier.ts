@@ -493,7 +493,7 @@ function extractPeriodHint(originalName: string): string | null {
   if (yearQuarter) {
     return `${yearQuarter[1]} Q${yearQuarter[2]}`;
   }
-  const month = normalized.match(/\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+(20\d{2})\b/i);
+  const month = normalized.match(/\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec|Januari|Februari|Maart|Mrt|Mei|Juni|Juli|Oktober|Okt)\s+(20\d{2})\b/i);
   if (month) {
     return `${month[1]} ${month[2]}`;
   }

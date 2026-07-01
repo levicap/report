@@ -3568,6 +3568,10 @@ function parseDuskWorkbook(bytes: Buffer, originalName: string, sha256: string, 
   const nlIndex = findFirstHeaderIndex(header, [/^pay-out nl$/i, /^payout nl$/i]);
   const intIndex = findFirstHeaderIndex(header, [/^pay-out int$/i, /^payout int$/i]);
   const dealIndex = findFirstHeaderIndex(header, [/^pay-out deal$/i, /^deal$/i]);
+  const yearIndex = findOptionalHeaderIndex(header, [/^year$/i]);
+  const monthIndex = findOptionalHeaderIndex(header, [/^month$/i]);
+  const durationSecondsIndex = findOptionalHeaderIndex(header, [/^duration seconds$/i]);
+  const period = duskPeriodFromRows(rows, headerIndex, yearIndex, monthIndex) ?? parsePeriodHint(classification.period_hint || originalName);
   const lineItems: Array<Record<string, unknown>> = [];
   const records: Array<Record<string, unknown>> = [];
   const provenance: Array<Record<string, unknown>> = [];
@@ -3580,6 +3584,7 @@ function parseDuskWorkbook(bytes: Buffer, originalName: string, sha256: string, 
     const nl = parseMoney(row[nlIndex]) ?? 0n;
     const intAmount = parseMoney(row[intIndex]) ?? 0n;
     const deal = dealIndex >= 0 ? parseMoney(row[dealIndex]) ?? 0n : 0n;
+    const durationSeconds = durationSecondsIndex >= 0 ? integerCell(row[durationSecondsIndex]) : null;
     const gross = nl + intAmount;
     if (gross === 0n) {
       return;
@@ -3608,6 +3613,9 @@ function parseDuskWorkbook(bytes: Buffer, originalName: string, sha256: string, 
       fee_amount: null,
       expense_amount: null,
       net_amount: { amount: moneyToString(gross), currency },
+      duration_seconds: durationSeconds,
+      period_start: period.start,
+      period_end: period.end,
       source_location: {
         file_name: originalName,
         sheet_name: sheet,
@@ -3617,6 +3625,9 @@ function parseDuskWorkbook(bytes: Buffer, originalName: string, sha256: string, 
         image_name: null
       },
       raw_fields: {
+        year: yearIndex >= 0 ? textCell(row[yearIndex]) : null,
+        month: monthIndex >= 0 ? textCell(row[monthIndex]) : null,
+        duration_seconds: durationSeconds,
         payout_nl: moneyToString(nl),
         payout_int: moneyToString(intAmount),
         payout_deal: moneyToString(deal),
@@ -3644,7 +3655,7 @@ function parseDuskWorkbook(bytes: Buffer, originalName: string, sha256: string, 
   const validationStatus = absMoney(difference) > ONE_CENT ? "failed" : splitIssues.length > 0 ? "warning" : "passed";
   const reportStatus = reviewRequired ? "review" : "ready";
   const reportId = reportKey(classification, sha256, "dusk");
-  const normalized = normalizedShell(reportId, reportStatus, originalName, sha256, classification, refs, parsePeriodHint(classification.period_hint), currency);
+  const normalized = normalizedShell(reportId, reportStatus, originalName, sha256, classification, refs, period, currency);
   normalized.period.due_date = normalized.period.invoice_date ? endOfMonthOffset(normalized.period.invoice_date, 2) : null;
   const postingAmount = roundMoneyToCents(declaredAmount);
   normalized.line_items = lineItems;
@@ -3762,6 +3773,20 @@ function duskKnownPostingSplit(sha256: string, reportId: string, status: string,
       suppression_reason: null,
       source_line_ids: sourceLineIds
     }));
+}
+
+function duskPeriodFromRows(rows: unknown[][], headerIndex: number, yearIndex: number, monthIndex: number) {
+  if (yearIndex < 0 || monthIndex < 0) {
+    return null;
+  }
+  for (const row of rows.slice(headerIndex + 1)) {
+    const year = integerCell(row[yearIndex]);
+    const month = integerCell(row[monthIndex]);
+    if (year && month && year >= 2000 && year <= 2099 && month >= 1 && month <= 12) {
+      return parsePeriodHint(`${year}-${String(month).padStart(2, "0")}`);
+    }
+  }
+  return null;
 }
 
 function isDuskSummaryLabel(label: string): boolean {
@@ -7104,6 +7129,15 @@ function findFirstHeaderIndex(header: string[], patterns: RegExp[]): number {
   return header.length > 0 ? 0 : -1;
 }
 
+function findOptionalHeaderIndex(header: string[], patterns: RegExp[]): number {
+  for (let index = 0; index < header.length; index += 1) {
+    if (patterns.some((pattern) => pattern.test(header[index]))) {
+      return index;
+    }
+  }
+  return -1;
+}
+
 function findLastHeaderIndex(header: string[], patterns: RegExp[]): number {
   for (let index = header.length - 1; index >= 0; index -= 1) {
     if (patterns.some((pattern) => pattern.test(header[index]))) {
@@ -7119,6 +7153,18 @@ function textCell(value: unknown): string | null {
   }
   const text = String(value).trim();
   return text === "" ? null : text;
+}
+
+function integerCell(value: unknown): number | null {
+  if (value === null || value === undefined || value === "") {
+    return null;
+  }
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return Math.trunc(value);
+  }
+  const normalized = String(value).replace(/,/g, "").trim();
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? Math.trunc(parsed) : null;
 }
 
 function rawFieldsFromRow(headers: string[], row: unknown[]): Record<string, unknown> {

@@ -1,2 +1,3 @@
 export type { ParserResult } from "./normalizer/types";
-export { parseReportFromBuffer } from "./normalizer/pipeline";
+export { parseReportFromBuffer, parseReportFromBufferForClient } from "./normalizer/pipeline";
+export type { ParserClientOverride } from "./normalizer/pipeline";

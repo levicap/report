@@ -11,16 +11,20 @@
     "test:parsers": "node scripts/run-parser-fixtures.mjs",
     "compare:airtable": "node scripts/compare-parser-output-to-airtable.mjs",
     "preview:bundles": "node scripts/build-bundle-preview.mjs",
-    "db:clear": "node scripts/clear-supabase-data.mjs"
+    "db:clear": "node scripts/clear-supabase-data.mjs",
+    "verify:analytics": "node scripts/verify-analytics-unified-output.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
+    "@tailwindcss/postcss": "^4.3.2",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
     "lucide-react": "^0.468.0",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.2",
     "xlsx": "^0.18.5",
     "zod": "^3.23.8"
   },

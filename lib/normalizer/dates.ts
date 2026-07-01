@@ -18,6 +18,20 @@ const monthNames = new Map<string, number>(
   ])
 );
 
+for (const [name, month] of [
+  ["januari", 1],
+  ["februari", 2],
+  ["maart", 3],
+  ["mrt", 3],
+  ["mei", 5],
+  ["juni", 6],
+  ["juli", 7],
+  ["oktober", 10],
+  ["okt", 10]
+] as Array<[string, number]>) {
+  monthNames.set(name, month);
+}
+
 export function parsePeriodHint(label: string | null | undefined): { start: string | null; end: string | null; label: string | null } {
   if (!label) {
     return { start: null, end: null, label: null };
