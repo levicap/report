@@ -103,6 +103,8 @@ export default async function ExportPreviewPage({ params }: PageProps) {
     invoiceDate: defaultInvoiceDate,
     dueDate: report?.due_date ?? null
   });
+  const failedValidations = failedValidationResult.data ?? [];
+  const openReviews = openReviewResult.data ?? [];
   const readyRecordIds = new Set((recordsResult.data ?? []).map((record) => String(record.report_record_id)));
   const exportRecords = ((allPostingsResult.data ?? []) as PostingRecord[]).map(toExportRecord);
   const commentsByRecordId = groupComments((commentsResult.error ? [] : commentsResult.data ?? []) as RecordComment[]);
@@ -119,8 +121,8 @@ export default async function ExportPreviewPage({ params }: PageProps) {
       gate: exportGate(record, {
         readyRecordIds,
         reportStatus: report?.status ?? null,
-        failedValidations: failedValidationResult.data ?? [],
-        openReviews: openReviewResult.data ?? []
+        failedValidations,
+        openReviews
       })
     };
   });
@@ -136,105 +138,249 @@ export default async function ExportPreviewPage({ params }: PageProps) {
   const exportBalanced = exportDiff !== null && Math.abs(exportDiff) <= 0.01;
 
   return (
-    <>
-      <div className="topbar">
-        <div>
-          <h1>Airtable Preview</h1>
-          <p>{report?.report_key ?? reportId}</p>
+    <div className="space-y-6">
+      <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+          <div className="min-w-0">
+            <a
+              className="mb-4 inline-flex w-fit items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+              href="/reports"
+            >
+              <ArrowLeft size={16} aria-hidden="true" />
+              Back to reports
+            </a>
+            <p className="mb-2 text-theme-sm font-medium text-brand-500">Airtable Export Preview</p>
+            <h1 className="max-w-5xl break-words text-2xl font-semibold text-gray-800 dark:text-white/90">{report?.report_key ?? reportId}</h1>
+            <p className="mt-2 max-w-4xl text-theme-sm text-gray-500 dark:text-gray-400">
+              Review the exact Airtable-shaped records before export. Edit fields and add comments from the collapsed row panels below.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-col gap-3 sm:flex-row xl:items-center">
+            <ReadinessBadge ready={canExport && exportBalanced} label={canExport ? `${readyRows.length} ready` : "Blocked"} />
+            <form action={`/api/export/${reportId}`} method="post">
+              <button
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 text-theme-sm font-medium text-white shadow-theme-xs hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                type="submit"
+                disabled={!canExport}
+                title="Generate Airtable-compatible export"
+              >
+                {apiSendEnabled ? <Send size={16} aria-hidden="true" /> : <Download size={16} aria-hidden="true" />}
+                {apiSendEnabled ? "Send to Airtable" : "Generate CSV"}
+              </button>
+            </form>
+          </div>
         </div>
-        <div className="action-row">
-          <a className="button secondary" href="/reports">
-            <ArrowLeft size={16} aria-hidden="true" />
-            Back
-          </a>
-          <form action={`/api/export/${reportId}`} method="post">
-            <button className="button" type="submit" disabled={!canExport} title="Generate Airtable-compatible export">
-              {apiSendEnabled ? <Send size={16} aria-hidden="true" /> : <Download size={16} aria-hidden="true" />}
-              {apiSendEnabled ? "Send" : "Generate CSV"}
-            </button>
-          </form>
-        </div>
-      </div>
+      </section>
 
       {!canExport ? (
-        <div className="setup setup-warning">
-          <ShieldAlert size={17} aria-hidden="true" />
-          <span>No ready postings are available for export. Parser candidate rows still appear below with the gate that prevents export.</span>
+        <div className="flex items-start gap-3 rounded-xl border border-warning-200 bg-warning-50 px-4 py-3 text-theme-sm font-medium text-warning-700">
+          <ShieldAlert className="mt-0.5 shrink-0" size={17} aria-hidden="true" />
+          <span>No ready postings are available for export. Candidate records are still shown below with the gate reason that prevents export.</span>
         </div>
       ) : null}
 
-      <section className={`export-readiness ${canExport && exportBalanced ? "ready" : "blocked"}`} aria-label="Export readiness">
-        <div>
-          <span className="eyebrow">Airtable Export Gate</span>
-          <strong>{canExport ? `${readyRows.length} row${readyRows.length === 1 ? "" : "s"} ready` : "Export blocked"}</strong>
+      <section
+        className={`rounded-2xl border p-5 shadow-theme-sm ${
+          canExport && exportBalanced
+            ? "border-success-200 bg-success-50 dark:border-success-500/20 dark:bg-success-500/[0.08]"
+            : "border-warning-200 bg-warning-50 dark:border-warning-500/20 dark:bg-warning-500/[0.08]"
+        }`}
+        aria-label="Export readiness"
+      >
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <span className="text-theme-sm font-medium text-gray-600 dark:text-gray-300">Export gate</span>
+            <strong className="mt-1 block text-lg font-semibold text-gray-800 dark:text-white/90">
+              {canExport ? `${readyRows.length} row${readyRows.length === 1 ? "" : "s"} ready for export` : "Export blocked"}
+            </strong>
+          </div>
+          <p className="max-w-4xl text-theme-sm text-gray-600 dark:text-gray-300">
+            {canExport
+              ? "Ready rows are included in CSV/API export. Blocked candidate rows stay visible for accounting review and correction."
+              : "Resolve review items, failed validations, missing required fields, or posting statuses before exporting."}
+          </p>
         </div>
-        <p>
-          {canExport
-            ? "Ready rows are eligible for CSV/API export. Candidate rows that fail validation or review gates are shown for accounting review only."
-            : "The report has no export-ready posting records. Resolve review items, failed validations, or missing required fields before exporting."}
-        </p>
       </section>
 
-      <section className="grid stats" aria-label="Export totals">
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Export totals">
         <Stat label="Candidate Rows" value={String(previewRows.length)} icon={<Table2 size={18} aria-hidden="true" />} />
         <Stat label="Ready Rows" value={String(readyRows.length)} tone={readyRows.length > 0 ? "ok" : "warning"} icon={<CheckCircle2 size={18} aria-hidden="true" />} />
         <Stat label="Blocked Rows" value={String(blockedRows)} tone={blockedRows > 0 ? "warning" : "ok"} icon={<ShieldAlert size={18} aria-hidden="true" />} />
-        <Stat label="Source" value={formatAmount(sourceTotal, reconciliation?.currency)} />
-        <Stat label="Normalized" value={formatAmount(normalizedTotal, reconciliation?.currency)} />
-        <Stat label="Export" value={formatAmount(exportTotal, reconciliation?.currency)} />
         <Stat label="Preview Total" value={formatAmount(previewTotal, reconciliation?.currency)} />
+        <Stat label="Source Total" value={formatAmount(sourceTotal, reconciliation?.currency)} />
+        <Stat label="Normalized" value={formatAmount(normalizedTotal, reconciliation?.currency)} />
+        <Stat label="Source Diff" value={formatAmount(sourceDiff, reconciliation?.currency)} tone={sourceDiff !== null && Math.abs(sourceDiff) > 0.01 ? "warning" : "ok"} />
         <Stat label="Export Diff" value={formatAmount(exportDiff, reconciliation?.currency)} tone={exportDiff !== null && Math.abs(exportDiff) > 0.01 ? "warning" : "ok"} />
       </section>
 
-      <section className="panel">
-        <div className="panel-header">
+      {(failedValidations.length > 0 || openReviews.length > 0) && (
+        <section className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          {failedValidations.length > 0 ? (
+            <IssuePanel title="Failed Validations" count={failedValidations.length}>
+              {failedValidations.slice(0, 6).map((item) => (
+                <li className="rounded-lg border border-error-200 bg-error-50 px-3 py-2 text-theme-sm text-error-700" key={item.id}>
+                  <strong className="block font-medium">{item.check_name}</strong>
+                  <span>{item.message}</span>
+                </li>
+              ))}
+            </IssuePanel>
+          ) : null}
+          {openReviews.length > 0 ? (
+            <IssuePanel title="Open Review Items" count={openReviews.length}>
+              {openReviews.slice(0, 6).map((item) => (
+                <li className="rounded-lg border border-warning-200 bg-warning-50 px-3 py-2 text-theme-sm text-warning-700" key={item.id}>
+                  {item.reason}
+                </li>
+              ))}
+            </IssuePanel>
+          ) : null}
+        </section>
+      )}
+
+      <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03]">
+        <div className="flex flex-col gap-3 border-b border-gray-200 px-5 py-4 dark:border-gray-800 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2>Airtable Row Preview</h2>
-            <p className="subtle">Airtable-shaped parser output. Only rows marked ready are included in CSV/API export.</p>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white/90">Airtable Records</h2>
+            <p className="mt-1 text-theme-sm text-gray-500 dark:text-gray-400">
+              Compact preview of the rows that will be exported or held for review.
+            </p>
           </div>
-          <span className="preview-count">{previewRows.length} candidate rows</span>
+          <span className="inline-flex w-fit rounded-full bg-gray-100 px-3 py-1 text-theme-xs font-medium text-gray-600 dark:bg-white/[0.05] dark:text-gray-300">
+            {previewRows.length} candidate rows
+          </span>
         </div>
-        <div className="preview-list">
-          {previewRows.map((row) => (
-            <article className="preview-card" id={`record-${row.source.report_record_id}`} key={row.source.report_record_id}>
-              <div className="preview-card-header">
-                <div>
-                  <span className="preview-label">Airtable Record</span>
-                  <strong>{row.csvFields.Customer || "Missing customer"}</strong>
-                  <p>{row.csvFields.Memo || "Missing memo"}</p>
+
+        <div className="overflow-x-auto">
+          <table className="min-w-[1180px]">
+            <thead>
+              <tr>
+                <th className="px-4 py-3">Record</th>
+                <th className="px-4 py-3">Customer</th>
+                <th className="px-4 py-3">Studio</th>
+                <th className="px-4 py-3">Amount</th>
+                <th className="px-4 py-3">Memo</th>
+                <th className="px-4 py-3">Invoice</th>
+                <th className="px-4 py-3">Due</th>
+                <th className="px-4 py-3">Vertical</th>
+                <th className="px-4 py-3">Gate</th>
+                <th className="px-4 py-3">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {previewRows.map((row) => (
+                <tr className="hover:bg-gray-50/70 dark:hover:bg-white/[0.02]" key={row.source.report_record_id}>
+                  <td className="max-w-[170px] px-4 py-3">
+                    <span className="block truncate font-mono text-theme-xs text-gray-500" title={row.source.record_key}>
+                      {row.source.record_key}
+                    </span>
+                    <StatusBadge status={row.recordStatus} />
+                  </td>
+                  <td className="max-w-[170px] px-4 py-3">
+                    <CellValue value={row.csvFields.Customer} />
+                  </td>
+                  <td className="max-w-[170px] px-4 py-3">
+                    <CellValue value={row.csvFields.Studio} />
+                  </td>
+                  <td className="px-4 py-3 font-semibold text-gray-800 dark:text-white/90">
+                    {formatAmount(row.csvFields.Amount, row.sourceCurrency)}
+                  </td>
+                  <td className="max-w-[260px] px-4 py-3">
+                    <CellValue value={row.csvFields.Memo} />
+                  </td>
+                  <td className="px-4 py-3">
+                    <CellValue value={row.csvFields["Invoice Date"]} />
+                  </td>
+                  <td className="px-4 py-3">
+                    <CellValue value={row.csvFields["Due Date"]} />
+                  </td>
+                  <td className="max-w-[130px] px-4 py-3">
+                    <CellValue value={row.csvFields.Vertical} />
+                  </td>
+                  <td className="max-w-[260px] px-4 py-3">
+                    <GateBadge gate={row.gate} />
+                  </td>
+                  <td className="px-4 py-3">
+                    <a
+                      className="inline-flex h-9 items-center justify-center rounded-lg border border-gray-300 bg-white px-3 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                      href={`#record-${row.source.report_record_id}`}
+                    >
+                      Edit row
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {previewRows.length === 0 ? (
+            <div className="px-5 py-12 text-center text-theme-sm text-gray-500 dark:text-gray-400">
+              No parser posting records were produced for this report.
+            </div>
+          ) : null}
+        </div>
+      </section>
+
+      {previewRows.length > 0 ? (
+        <section className="space-y-4">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white/90">Edit Records and Comments</h2>
+            <p className="mt-1 text-theme-sm text-gray-500 dark:text-gray-400">
+              Open a row only when you need to change Airtable fields, adjust status, or leave an accounting note.
+            </p>
+          </div>
+
+          {previewRows.map((row, index) => (
+            <details
+              className="group rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03]"
+              id={`record-${row.source.report_record_id}`}
+              key={row.source.report_record_id}
+              open={index === 0 && !canExport}
+            >
+              <summary className="flex cursor-pointer list-none flex-col gap-3 px-5 py-4 marker:hidden lg:flex-row lg:items-center lg:justify-between [&::-webkit-details-marker]:hidden">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <strong className="text-theme-sm font-semibold text-gray-800 dark:text-white/90">
+                      {row.csvFields.Customer || "Missing customer"}
+                    </strong>
+                    <StatusBadge status={row.recordStatus} />
+                    <GateBadge gate={row.gate} compact />
+                  </div>
+                  <p className="mt-1 max-w-5xl truncate text-theme-sm text-gray-500 dark:text-gray-400">
+                    {row.csvFields.Memo || "Missing memo"}
+                  </p>
+                  <span className="mt-1 block truncate font-mono text-theme-xs text-gray-500">{row.source.record_key}</span>
                 </div>
-                <div className="preview-card-actions">
-                  <span className={`status ${row.recordStatus}`}>{row.recordStatus}</span>
-                  <span className="amount-chip">{formatAmount(row.csvFields.Amount)}</span>
+                <div className="flex shrink-0 items-center gap-3">
+                  <span className="rounded-full bg-gray-100 px-3 py-1 text-theme-sm font-semibold text-gray-800 dark:bg-white/[0.05] dark:text-white/90">
+                    {formatAmount(row.csvFields.Amount, row.sourceCurrency)}
+                  </span>
+                  <span className="text-theme-xs font-medium text-brand-500 group-open:hidden">Open</span>
+                  <span className="hidden text-theme-xs font-medium text-brand-500 group-open:inline">Close</span>
                 </div>
-              </div>
-              <form action={`/api/report-records/${row.source.report_record_id}/edit`} method="post" className="record-edit-form">
-                <div className={`preview-gate ${row.gate === "Ready to export" ? "ready" : "blocked"}`}>
-                  {row.gate === "Ready to export" ? <CheckCircle2 size={15} aria-hidden="true" /> : <ShieldAlert size={15} aria-hidden="true" />}
-                  <span>{row.gate}</span>
-                </div>
-                <div className="preview-fields airtable-fields editable-fields">
+              </summary>
+
+              <form action={`/api/report-records/${row.source.report_record_id}/edit`} method="post" className="border-t border-gray-200 px-5 py-5 dark:border-gray-800">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
                   {AIRTABLE_COLUMNS.map((column) => {
                     const field = fieldForColumn(column);
                     return (
-                      <label className="preview-field editable-field" key={column}>
-                        <span>{column}</span>
-                        <input
-                          name={field.name}
-                          defaultValue={String(row.csvFields[column] ?? "")}
-                          inputMode={field.inputMode}
-                          type={field.type}
-                        />
-                      </label>
+                      <FieldControl
+                        defaultValue={String(row.csvFields[column] ?? "")}
+                        inputMode={field.inputMode}
+                        key={column}
+                        label={column}
+                        name={field.name}
+                        type={field.type}
+                      />
                     );
                   })}
-                  <label className="preview-field editable-field">
-                    <span>Currency</span>
-                    <input name="currency" defaultValue={String(row.sourceCurrency ?? "")} maxLength={3} />
-                  </label>
-                  <label className="preview-field editable-field">
-                    <span>Status</span>
-                    <select name="record_status" defaultValue={row.recordStatus}>
+                  <FieldControl defaultValue={String(row.sourceCurrency ?? "")} label="Currency" maxLength={3} name="currency" type="text" />
+                  <label className="block">
+                    <span className="mb-1.5 block text-theme-xs font-medium uppercase text-gray-500 dark:text-gray-400">Status</span>
+                    <select
+                      className="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-theme-sm text-gray-800 shadow-theme-xs outline-none focus:border-brand-300 focus:shadow-focus-ring dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                      name="record_status"
+                      defaultValue={row.recordStatus}
+                    >
                       <option value="ready">ready</option>
                       <option value="review">review</option>
                       <option value="blocked">blocked</option>
@@ -242,55 +388,191 @@ export default async function ExportPreviewPage({ params }: PageProps) {
                     </select>
                   </label>
                 </div>
-                <div className="record-comments">
-                  <div className="comments-header">
-                    <MessageSquare size={15} aria-hidden="true" />
-                    <strong>Comments</strong>
-                  </div>
-                  {row.comments.length > 0 ? (
-                    <div className="comment-list">
-                      {row.comments.map((comment) => (
-                        <p className="comment-item" key={comment.id}>
-                          <span>{comment.created_by || "dashboard"}</span>
-                          {comment.comment_text}
-                        </p>
-                      ))}
+
+                <div className="mt-5 grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
+                  <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-white/[0.03]">
+                    <div className="mb-3 flex items-center gap-2 text-theme-sm font-semibold text-gray-800 dark:text-white/90">
+                      <MessageSquare size={15} aria-hidden="true" />
+                      Comments
                     </div>
-                  ) : (
-                    <p className="comment-empty">No comments yet.</p>
-                  )}
-                  <textarea name="comment" rows={2} placeholder="Add record comment" />
+                    {row.comments.length > 0 ? (
+                      <div className="space-y-2">
+                        {row.comments.map((comment) => (
+                          <p className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-theme-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300" key={comment.id}>
+                            <span className="mr-2 font-medium text-gray-800 dark:text-white/90">{comment.created_by || "dashboard"}</span>
+                            {comment.comment_text}
+                          </p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-theme-sm text-gray-500 dark:text-gray-400">No comments yet.</p>
+                    )}
+                  </div>
+
+                  <label className="block">
+                    <span className="mb-1.5 flex items-center gap-2 text-theme-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+                      <MessageSquare size={14} aria-hidden="true" />
+                      Add comment
+                    </span>
+                    <textarea
+                      className="min-h-[126px] w-full resize-y rounded-lg border border-gray-300 bg-white px-3 py-2 text-theme-sm text-gray-800 shadow-theme-xs outline-none placeholder:text-gray-400 focus:border-brand-300 focus:shadow-focus-ring dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                      name="comment"
+                      placeholder="Add record comment"
+                    />
+                  </label>
                 </div>
-                <div className="record-edit-actions">
-                  <button className="button secondary" type="submit" title="Save Airtable record edits">
+
+                <div className="mt-5 flex flex-col gap-3 border-t border-gray-200 pt-4 dark:border-gray-800 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex min-w-0 items-center gap-2 text-theme-xs text-gray-500 dark:text-gray-400">
+                    <FileJson2 className="shrink-0" size={14} aria-hidden="true" />
+                    <span className="truncate font-mono">{row.source.record_key}</span>
+                  </div>
+                  <button
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                    type="submit"
+                    title="Save Airtable record edits"
+                  >
                     <Save size={15} aria-hidden="true" />
                     Save row
                   </button>
                 </div>
               </form>
-              <div className="source-strip">
-                <FileJson2 size={14} aria-hidden="true" />
-                <span className="code">{row.source.record_key}</span>
-              </div>
-            </article>
+            </details>
           ))}
-          {previewRows.length === 0 ? <div className="empty">No parser posting records were produced for this report.</div> : null}
-        </div>
-      </section>
-    </>
+        </section>
+      ) : null}
+    </div>
   );
 }
 
 function Stat({ label, value, tone, icon }: { label: string; value: string; tone?: "ok" | "warning"; icon?: ReactNode }) {
+  const iconClass =
+    tone === "warning"
+      ? "bg-warning-50 text-warning-600 dark:bg-warning-500/[0.12]"
+      : tone === "ok"
+        ? "bg-success-50 text-success-600 dark:bg-success-500/[0.12]"
+        : "bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12]";
+
   return (
-    <div className={`stat ${tone ? `stat-${tone}` : ""}`}>
-      <span>
-        {icon}
-        {label}
-      </span>
-      <strong>{value}</strong>
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03]">
+      <div className="flex items-center gap-3">
+        {icon ? <span className={`inline-flex size-10 items-center justify-center rounded-xl ${iconClass}`}>{icon}</span> : null}
+        <span className="text-theme-sm font-medium text-gray-500 dark:text-gray-400">{label}</span>
+      </div>
+      <strong className="mt-4 block text-xl font-semibold text-gray-800 dark:text-white/90">{value}</strong>
     </div>
   );
+}
+
+function ReadinessBadge({ ready, label }: { ready: boolean; label: string }) {
+  return (
+    <span
+      className={`inline-flex h-11 items-center justify-center gap-2 rounded-lg px-4 text-theme-sm font-medium ${
+        ready
+          ? "bg-success-50 text-success-700 dark:bg-success-500/[0.12] dark:text-success-500"
+          : "bg-warning-50 text-warning-700 dark:bg-warning-500/[0.12] dark:text-warning-500"
+      }`}
+    >
+      {ready ? <CheckCircle2 size={16} aria-hidden="true" /> : <ShieldAlert size={16} aria-hidden="true" />}
+      {label}
+    </span>
+  );
+}
+
+function IssuePanel({ title, count, children }: { title: string; count: number; children: ReactNode }) {
+  return (
+    <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03]">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white/90">{title}</h2>
+        <span className="inline-flex rounded-full bg-gray-100 px-3 py-1 text-theme-xs font-medium text-gray-600 dark:bg-white/[0.05] dark:text-gray-300">
+          {count}
+        </span>
+      </div>
+      <ul className="space-y-2">{children}</ul>
+    </section>
+  );
+}
+
+function CellValue({ value }: { value: string | number | null }) {
+  if (value === null || value === "") {
+    return <span className="text-gray-400">Missing</span>;
+  }
+
+  return (
+    <span className="block truncate text-theme-sm text-gray-700 dark:text-gray-300" title={String(value)}>
+      {String(value)}
+    </span>
+  );
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const tone = statusTone(status);
+  const className =
+    tone === "success"
+      ? "bg-success-50 text-success-700 dark:bg-success-500/[0.12] dark:text-success-500"
+      : tone === "error"
+        ? "bg-error-50 text-error-700 dark:bg-error-500/[0.12] dark:text-error-500"
+        : "bg-warning-50 text-warning-700 dark:bg-warning-500/[0.12] dark:text-warning-500";
+
+  return <span className={`mt-1 inline-flex rounded-full px-2.5 py-0.5 text-theme-xs font-medium ${className}`}>{status}</span>;
+}
+
+function GateBadge({ gate, compact = false }: { gate: string; compact?: boolean }) {
+  const ready = gate === "Ready to export";
+  const label = compact && !ready ? "Blocked" : gate;
+  return (
+    <span
+      className={`inline-flex max-w-full items-center gap-1 rounded-full px-2.5 py-0.5 text-theme-xs font-medium ${
+        ready
+          ? "bg-success-50 text-success-700 dark:bg-success-500/[0.12] dark:text-success-500"
+          : "bg-warning-50 text-warning-700 dark:bg-warning-500/[0.12] dark:text-warning-500"
+      }`}
+      title={gate}
+    >
+      {ready ? <CheckCircle2 size={13} aria-hidden="true" /> : <ShieldAlert size={13} aria-hidden="true" />}
+      <span className={compact ? "" : "truncate"}>{label}</span>
+    </span>
+  );
+}
+
+function FieldControl({
+  defaultValue,
+  inputMode,
+  label,
+  maxLength,
+  name,
+  type
+}: {
+  defaultValue: string;
+  inputMode?: "decimal";
+  label: string;
+  maxLength?: number;
+  name: string;
+  type: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block truncate text-theme-xs font-medium uppercase text-gray-500 dark:text-gray-400">{label}</span>
+      <input
+        className="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-theme-sm text-gray-800 shadow-theme-xs outline-none placeholder:text-gray-400 focus:border-brand-300 focus:shadow-focus-ring dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+        defaultValue={defaultValue}
+        inputMode={inputMode}
+        maxLength={maxLength}
+        name={name}
+        type={type}
+      />
+    </label>
+  );
+}
+
+function statusTone(status: string): "success" | "warning" | "error" {
+  if (["ready", "processed", "passed", "complete", "exported", "validated"].includes(status)) {
+    return "success";
+  }
+  if (["failed", "blocked", "error"].includes(status)) {
+    return "error";
+  }
+  return "warning";
 }
 
 function toExportRecord(record: PostingRecord): ExportRecord {
